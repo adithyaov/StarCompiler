@@ -1,6 +1,6 @@
 # README #
 
-compilers!!!!!!!
+A compiler for StarC that compiles to javascript.
 
 ### What is this repository for? ###
 
