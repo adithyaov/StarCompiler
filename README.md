@@ -2,6 +2,11 @@
 
 A compiler for StarC that compiles to javascript.
 
+sml resources
+http://cs.fit.edu/~ryan/sml/intro.html
+http://www.cs.princeton.edu/courses/archive/fall08/cos441/notes/lect-SMLNJ.pdf
+http://www.cs.cornell.edu/riccardo/prog-smlnj/notes-011001.pdf
+
 ### What is this repository for? ###
 
 * Quick summary
