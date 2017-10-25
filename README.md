@@ -10,6 +10,7 @@ http://www.cs.cornell.edu/riccardo/prog-smlnj/notes-011001.pdf
 lex sources
 http://smlnj.org/doc/ML-Lex/manual.html
 http://flint.cs.yale.edu/cs421/lectureNotes/c02.pdf
+http://www.cs.tufts.edu/comp/181/ug.pdf
 
 ### What is this repository for? ###
 
