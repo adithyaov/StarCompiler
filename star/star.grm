@@ -1,0 +1,113 @@
+(* Interactive lang transpiler ? *)
+
+
+%%
+
+%eop EOF SEMI
+
+(* %pos declares the type of positions for terminals.
+   Each symbol has an associated left and right position. *)
+
+%pos int
+
+%left SUB PLUS
+%left TIMES DIV
+%right CARAT
+
+%term ID of string | NUM of int | STRING of string
+      | PLUS | TIMES | PRINT
+      | SEMI | EOF | CARAT | DIV | SUB
+      | AND | OR | EQ | ASSIGN
+      | GE | GT | LE | LT | NEQ
+      | LBRACE | RBRACE | LPAREN | RPAREN
+      | VAR | FUNCTION | BREAK | CONTINUE
+      | WHILE | ELSE | IF | RETURN
+
+%nonterm exp_ of int 
+        | kwo_ of int 
+        | start of int option
+        | if_ of int
+        | function_ of int
+        | params_ of int
+        | body_ of int
+        | bool_ of int
+        | comparision_ of int
+        | assignment_ of int
+        | while_ of int
+        | print_ of int
+        | constants_ of int
+        | program_ of int
+        | variables_ of int
+        | static_ of int
+
+%name Star
+
+%prefer PLUS TIMES DIV SUB LPAREN
+%keyword WHILE BREAK CONTINUE RETURN FUNCTION VAR IF ELSE PRINT SEMI
+
+%noshift EOF
+%verbose
+%%
+
+(* the parser returns the value associated with the exp_ression *)
+
+  start : program_ (SOME program_)
+        | body_ (SOME body_)
+        | constants_ (SOME constants_)
+        | assignment_ (SOME assignment_)
+        | while_ (SOME while_)
+        | print_ (SOME print_)
+        | function_ (SOME function_)
+        | if_ (SOME if_)
+        | (NONE)
+
+  program_ : EOF (901) | function_ program_ (900)
+
+  exp_ : NUM             (0)
+      | exp_ PLUS exp_    (1)
+      | exp_ TIMES exp_   (2)
+      | exp_ DIV exp_     (3)
+      | exp_ SUB exp_     (4)
+      | exp_ CARAT exp_   (5)
+
+  body_ : assignment_ body_ (400)
+        | if_ body_         (401)
+        | while_ body_      (402)
+        | print_ body_      (403)
+        | BREAK             (404)
+        | CONTINUE          (405)
+        | RETURN       (406)
+
+  constants_ : NUM (500) | STRING (501)
+  variables_ : ID (502)
+  static_ : constants_ (999) | variables_ (1000)
+
+  assignment_ : VAR ID ASSIGN constants_  (600)
+              | VAR ID ASSIGN exp_        (601)
+
+  comparision_ : GE (2000) | GT (2001) | LE (2002) | LT (2003) | NEQ (2004)
+
+  bool_ : static_ comparision_ static_  (1200)
+        | bool_ AND bool_               (1201)
+        | bool_ OR body_                (1202)
+
+  while_ : WHILE LPAREN bool_ RPAREN LBRACE body_ RBRACE (700)
+
+  print_ : PRINT LPAREN constants_ RPAREN (800)
+
+  function_ : FUNCTION ID LPAREN params_ RPAREN LBRACE body_ RBRACE (300)
+
+  if_ : IF LPAREN bool_ RPAREN LBRACE body_ RBRACE  (200)
+      | IF LPAREN bool_ RPAREN LBRACE body_ RBRACE ELSE LBRACE body_ RBRACE (201)
+
+  kwo_ : VAR  (100)
+      | WHILE (101)
+      | BREAK (102)
+      | CONTINUE (103)
+      | RETURN (104)
+      | FUNCTION (105)
+      | VAR (106)
+      | IF (107)
+      | ELSE (108)
+      | PRINT (109)
+      | SEMI (110)

@@ -1,0 +1,2 @@
+Skeleton 5
+ae"StarLexFun"i2aä¢Tokens"gp1c"Star_TOKENS"f5Cä¢Int"d"Char"d"String"ä¢TextIO"ä¢Vector"Nh3aä¢yyInput"jh3aä¢TIO"gp1ÿad"TSIO"gp2ÿ(d"StreamIO"ad"TPIO"gp1d"TextPrimIO"h0aä¢UserDeclarations"h1aÿgp1ÿbbd2egp1ÿ‚(f7d"IO"ÿ.Cd"List"ÿÿ‚(ÿÿNf0f1ÿ

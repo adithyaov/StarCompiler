@@ -1,0 +1,2 @@
+Skeleton 5
+d2f2d"Int"d"TextIO"ad"Star"jh3aä¢StarLrVals"jh1aä¢Token"gp2ä¢LrParser"ÿ0gp1e"StarLrValsFun"aä¢StarLex"jh1aä¢Tokens"gp2ÿÿ*gp1e"StarLexFun"ad"StarParser"jh3aÿ;gp1ÿ;aä¢ParserData"gp2ÿÿ‚%ad"Lex"gp1ÿgp1e"Join"h0
