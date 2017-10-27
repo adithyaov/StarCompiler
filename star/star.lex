@@ -14,7 +14,7 @@ fun error (e,l : int,_) = TextIO.output (TextIO.stdOut, String.concat[
 %%
 %header (functor StarLexFun(structure Tokens: Star_TOKENS));
 alpha=[A-Za-z];
-all=[A-Za-z0-9];
+all=[A-Za-z0-9\ ];
 digit=[0-9];
 ws = [\ \t];
 %%
@@ -22,6 +22,7 @@ ws = [\ \t];
 "+"      => (Tokens.PLUS(!pos,!pos));
 "*"      => (Tokens.TIMES(!pos,!pos));
 ";"      => (Tokens.SEMI(!pos,!pos));
+","      => (Tokens.COMMA(!pos,!pos));
 "-"      => (Tokens.SUB(!pos,!pos));
 "^"      => (Tokens.CARAT(!pos,!pos));
 "/"      => (Tokens.DIV(!pos,!pos));
@@ -52,7 +53,7 @@ ws = [\ \t];
 "end" => (Tokens.END(!pos,!pos));
 
 {ws}+    => (lex());
-:{alpha}+: => (Tokens.STRING(yytext,!pos,!pos));
+\"{all}+\" => (Tokens.STRING(yytext,!pos,!pos));
 {digit}+ => (Tokens.NUM (valOf (Int.fromString yytext), !pos, !pos));
 {alpha}+ => (Tokens.ID(yytext,!pos,!pos));
 

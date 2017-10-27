@@ -18,113 +18,130 @@ structure Token = Token
 local open LrTable in 
 val table=let val actionRows =
 "\
-\\001\000\000\000\
-\\001\000\001\000\008\000\000\000\
-\\001\000\001\000\032\000\000\000\
-\\001\000\001\000\039\000\002\000\038\000\000\000\
-\\001\000\002\000\038\000\000\000\
-\\001\000\006\000\024\000\025\000\023\000\027\000\022\000\028\000\021\000\
-\\029\000\020\000\031\000\019\000\032\000\018\000\000\000\
-\\001\000\007\000\000\000\008\000\000\000\000\000\
-\\001\000\012\000\051\000\013\000\050\000\024\000\049\000\000\000\
-\\001\000\012\000\051\000\013\000\050\000\024\000\057\000\000\000\
-\\001\000\015\000\041\000\000\000\
-\\001\000\016\000\048\000\017\000\047\000\018\000\046\000\019\000\045\000\
-\\020\000\044\000\000\000\
-\\001\000\021\000\012\000\000\000\
-\\001\000\021\000\061\000\000\000\
-\\001\000\021\000\069\000\000\000\
-\\001\000\021\000\075\000\000\000\
-\\001\000\022\000\028\000\000\000\
+\\001\000\001\000\021\000\002\000\020\000\000\000\
+\\001\000\001\000\021\000\002\000\020\000\003\000\066\000\000\000\
+\\001\000\001\000\039\000\000\000\
+\\001\000\001\000\040\000\000\000\
+\\001\000\001\000\064\000\000\000\
+\\001\000\004\000\036\000\005\000\035\000\010\000\034\000\011\000\033\000\
+\\012\000\032\000\025\000\067\000\000\000\
+\\001\000\006\000\019\000\026\000\018\000\028\000\016\000\029\000\015\000\
+\\030\000\014\000\032\000\013\000\033\000\012\000\000\000\
+\\001\000\008\000\000\000\009\000\000\000\000\000\
+\\001\000\013\000\061\000\014\000\060\000\017\000\059\000\018\000\058\000\
+\\019\000\057\000\020\000\056\000\021\000\055\000\025\000\054\000\000\000\
+\\001\000\013\000\061\000\014\000\060\000\017\000\059\000\018\000\058\000\
+\\019\000\057\000\020\000\056\000\021\000\055\000\025\000\062\000\000\000\
+\\001\000\016\000\051\000\000\000\
+\\001\000\022\000\069\000\000\000\
 \\001\000\022\000\072\000\000\000\
-\\001\000\022\000\073\000\000\000\
 \\001\000\022\000\077\000\000\000\
-\\001\000\023\000\009\000\000\000\
-\\001\000\023\000\030\000\000\000\
-\\001\000\023\000\031\000\000\000\
-\\001\000\023\000\033\000\000\000\
-\\001\000\024\000\011\000\000\000\
-\\001\000\024\000\059\000\000\000\
-\\001\000\026\000\006\000\033\000\005\000\000\000\
-\\079\000\000\000\
-\\080\000\000\000\
-\\081\000\000\000\
-\\082\000\000\000\
-\\083\000\005\000\055\000\009\000\054\000\010\000\053\000\000\000\
-\\084\000\009\000\054\000\000\000\
-\\085\000\009\000\054\000\000\000\
-\\086\000\005\000\055\000\009\000\054\000\010\000\053\000\000\000\
-\\087\000\009\000\054\000\000\000\
+\\001\000\022\000\084\000\000\000\
+\\001\000\023\000\079\000\000\000\
+\\001\000\023\000\080\000\000\000\
+\\001\000\023\000\083\000\000\000\
+\\001\000\023\000\086\000\000\000\
+\\001\000\024\000\037\000\000\000\
+\\001\000\024\000\038\000\000\000\
+\\001\000\024\000\041\000\000\000\
+\\001\000\024\000\050\000\000\000\
+\\001\000\025\000\073\000\000\000\
+\\001\000\027\000\017\000\034\000\011\000\000\000\
 \\088\000\000\000\
 \\089\000\000\000\
-\\090\000\000\000\
-\\091\000\000\000\
-\\092\000\000\000\
-\\093\000\000\000\
-\\094\000\000\000\
-\\095\000\000\000\
-\\096\000\004\000\056\000\005\000\055\000\009\000\054\000\010\000\053\000\
-\\011\000\052\000\000\000\
+\\090\000\004\000\036\000\005\000\035\000\010\000\034\000\011\000\033\000\
+\\012\000\032\000\000\000\
+\\091\000\006\000\019\000\026\000\018\000\028\000\016\000\029\000\015\000\
+\\030\000\014\000\032\000\013\000\033\000\012\000\000\000\
+\\092\000\006\000\019\000\026\000\018\000\028\000\016\000\029\000\015\000\
+\\030\000\014\000\032\000\013\000\033\000\012\000\000\000\
+\\093\000\006\000\019\000\026\000\018\000\028\000\016\000\029\000\015\000\
+\\030\000\014\000\032\000\013\000\033\000\012\000\000\000\
+\\094\000\027\000\017\000\034\000\011\000\000\000\
+\\095\000\006\000\019\000\026\000\018\000\028\000\016\000\029\000\015\000\
+\\030\000\014\000\032\000\013\000\033\000\012\000\000\000\
+\\096\000\001\000\021\000\002\000\020\000\006\000\019\000\026\000\018\000\
+\\027\000\017\000\028\000\016\000\029\000\015\000\030\000\014\000\
+\\032\000\013\000\033\000\012\000\034\000\011\000\000\000\
 \\097\000\000\000\
 \\098\000\000\000\
 \\099\000\000\000\
 \\100\000\000\000\
-\\101\000\000\000\
-\\102\000\000\000\
-\\103\000\000\000\
-\\104\000\000\000\
-\\105\000\013\000\050\000\000\000\
+\\101\000\005\000\035\000\010\000\034\000\011\000\033\000\000\000\
+\\102\000\010\000\034\000\000\000\
+\\103\000\010\000\034\000\000\000\
+\\104\000\005\000\035\000\010\000\034\000\011\000\033\000\000\000\
+\\105\000\010\000\034\000\000\000\
 \\106\000\000\000\
 \\107\000\000\000\
 \\108\000\000\000\
 \\109\000\000\000\
-\\110\000\030\000\074\000\000\000\
+\\110\000\000\000\
 \\111\000\000\000\
+\\112\000\000\000\
+\\113\000\004\000\036\000\005\000\035\000\010\000\034\000\011\000\033\000\
+\\012\000\032\000\000\000\
+\\114\000\000\000\
+\\115\000\000\000\
+\\116\000\000\000\
+\\117\000\000\000\
+\\118\000\000\000\
+\\119\000\000\000\
+\\120\000\004\000\036\000\005\000\035\000\010\000\034\000\011\000\033\000\
+\\012\000\032\000\000\000\
+\\121\000\013\000\061\000\014\000\060\000\017\000\059\000\018\000\058\000\
+\\019\000\057\000\020\000\056\000\021\000\055\000\000\000\
+\\122\000\014\000\060\000\017\000\059\000\018\000\058\000\019\000\057\000\
+\\020\000\056\000\021\000\055\000\000\000\
+\\123\000\017\000\059\000\018\000\058\000\019\000\057\000\020\000\056\000\
+\\021\000\055\000\000\000\
+\\124\000\000\000\
+\\125\000\000\000\
+\\126\000\007\000\074\000\000\000\
+\\127\000\000\000\
+\\128\000\000\000\
+\\129\000\031\000\082\000\000\000\
+\\130\000\000\000\
 \"
 val actionRowNumbers =
-"\025\000\026\000\025\000\027\000\
-\\001\000\028\000\019\000\000\000\
-\\023\000\011\000\005\000\005\000\
-\\005\000\005\000\015\000\005\000\
-\\041\000\020\000\021\000\040\000\
-\\039\000\002\000\022\000\038\000\
-\\037\000\035\000\056\000\036\000\
-\\003\000\003\000\009\000\003\000\
-\\010\000\044\000\007\000\043\000\
-\\029\000\042\000\008\000\003\000\
-\\024\000\003\000\050\000\049\000\
-\\048\000\047\000\046\000\012\000\
-\\005\000\003\000\004\000\004\000\
-\\004\000\004\000\004\000\013\000\
-\\045\000\055\000\051\000\005\000\
-\\053\000\052\000\033\000\032\000\
-\\034\000\031\000\030\000\005\000\
-\\016\000\017\000\057\000\054\000\
-\\014\000\005\000\018\000\058\000\
-\\006\000"
+"\033\000\025\000\030\000\029\000\
+\\028\000\026\000\031\000\032\000\
+\\027\000\034\000\049\000\019\000\
+\\020\000\048\000\047\000\002\000\
+\\003\000\021\000\036\000\037\000\
+\\006\000\006\000\006\000\046\000\
+\\006\000\045\000\043\000\035\000\
+\\024\000\044\000\000\000\000\000\
+\\000\000\000\000\000\000\000\000\
+\\000\000\022\000\010\000\000\000\
+\\041\000\040\000\042\000\039\000\
+\\038\000\008\000\057\000\009\000\
+\\004\000\001\000\005\000\000\000\
+\\011\000\056\000\055\000\054\000\
+\\053\000\052\000\000\000\000\000\
+\\012\000\023\000\063\000\050\000\
+\\051\000\062\000\058\000\006\000\
+\\060\000\059\000\006\000\013\000\
+\\004\000\015\000\016\000\006\000\
+\\064\000\066\000\061\000\017\000\
+\\014\000\065\000\006\000\018\000\
+\\067\000\007\000"
 val gotoT =
 "\
-\\002\000\076\000\004\000\002\000\012\000\001\000\000\000\
+\\001\000\008\000\002\000\085\000\003\000\007\000\004\000\006\000\
+\\006\000\005\000\009\000\004\000\010\000\003\000\011\000\002\000\
+\\012\000\001\000\000\000\
 \\000\000\
-\\004\000\002\000\012\000\005\000\000\000\
+\\003\000\024\000\006\000\023\000\009\000\022\000\010\000\021\000\
+\\011\000\020\000\000\000\
+\\003\000\024\000\006\000\025\000\009\000\022\000\010\000\021\000\
+\\011\000\020\000\000\000\
+\\003\000\024\000\006\000\026\000\009\000\022\000\010\000\021\000\
+\\011\000\020\000\000\000\
 \\000\000\
-\\000\000\
-\\000\000\
-\\000\000\
-\\005\000\008\000\000\000\
-\\000\000\
-\\000\000\
-\\003\000\015\000\006\000\014\000\009\000\013\000\010\000\012\000\
-\\011\000\011\000\000\000\
-\\003\000\015\000\006\000\023\000\009\000\013\000\010\000\012\000\
-\\011\000\011\000\000\000\
-\\003\000\015\000\006\000\024\000\009\000\013\000\010\000\012\000\
-\\011\000\011\000\000\000\
-\\003\000\015\000\006\000\025\000\009\000\013\000\010\000\012\000\
-\\011\000\011\000\000\000\
-\\000\000\
-\\003\000\015\000\006\000\027\000\009\000\013\000\010\000\012\000\
-\\011\000\011\000\000\000\
+\\004\000\028\000\012\000\027\000\000\000\
+\\003\000\024\000\006\000\029\000\009\000\022\000\010\000\021\000\
+\\011\000\020\000\000\000\
 \\000\000\
 \\000\000\
 \\000\000\
@@ -137,62 +154,83 @@ val gotoT =
 \\000\000\
 \\000\000\
 \\000\000\
-\\001\000\035\000\007\000\034\000\013\000\033\000\014\000\032\000\000\000\
-\\001\000\035\000\007\000\038\000\013\000\033\000\014\000\032\000\000\000\
+\\003\000\024\000\006\000\023\000\009\000\022\000\010\000\021\000\
+\\011\000\020\000\000\000\
+\\003\000\024\000\006\000\025\000\009\000\022\000\010\000\021\000\
+\\011\000\020\000\000\000\
+\\003\000\024\000\006\000\026\000\009\000\022\000\010\000\021\000\
+\\011\000\020\000\000\000\
 \\000\000\
-\\001\000\035\000\013\000\033\000\014\000\040\000\000\000\
-\\008\000\041\000\000\000\
-\\000\000\
-\\000\000\
-\\000\000\
-\\000\000\
-\\000\000\
-\\000\000\
-\\001\000\035\000\013\000\033\000\014\000\056\000\000\000\
-\\000\000\
-\\001\000\035\000\013\000\033\000\014\000\058\000\000\000\
+\\003\000\024\000\006\000\029\000\009\000\022\000\010\000\021\000\
+\\011\000\020\000\000\000\
 \\000\000\
 \\000\000\
 \\000\000\
+\\004\000\028\000\012\000\027\000\000\000\
+\\000\000\
+\\001\000\040\000\000\000\
+\\001\000\041\000\000\000\
+\\001\000\042\000\000\000\
+\\001\000\043\000\000\000\
+\\001\000\044\000\000\000\
+\\001\000\046\000\007\000\045\000\000\000\
+\\001\000\046\000\007\000\047\000\000\000\
+\\000\000\
+\\000\000\
+\\001\000\050\000\000\000\
 \\000\000\
 \\000\000\
 \\000\000\
-\\003\000\015\000\006\000\060\000\009\000\013\000\010\000\012\000\
-\\011\000\011\000\000\000\
-\\001\000\035\000\007\000\061\000\013\000\033\000\014\000\032\000\000\000\
-\\001\000\062\000\000\000\
+\\000\000\
+\\000\000\
+\\008\000\051\000\000\000\
+\\000\000\
+\\008\000\051\000\000\000\
+\\005\000\061\000\000\000\
 \\001\000\063\000\000\000\
-\\001\000\064\000\000\000\
-\\001\000\065\000\000\000\
-\\001\000\066\000\000\000\
 \\000\000\
-\\000\000\
-\\000\000\
-\\000\000\
-\\003\000\015\000\006\000\068\000\009\000\013\000\010\000\012\000\
-\\011\000\011\000\000\000\
+\\001\000\046\000\007\000\066\000\000\000\
 \\000\000\
 \\000\000\
 \\000\000\
 \\000\000\
 \\000\000\
 \\000\000\
-\\000\000\
-\\003\000\015\000\006\000\069\000\009\000\013\000\010\000\012\000\
-\\011\000\011\000\000\000\
-\\000\000\
+\\001\000\046\000\007\000\068\000\000\000\
+\\001\000\046\000\007\000\069\000\000\000\
 \\000\000\
 \\000\000\
 \\000\000\
 \\000\000\
-\\003\000\015\000\006\000\074\000\009\000\013\000\010\000\012\000\
-\\011\000\011\000\000\000\
+\\000\000\
+\\000\000\
+\\008\000\051\000\000\000\
+\\003\000\024\000\006\000\073\000\009\000\022\000\010\000\021\000\
+\\011\000\020\000\000\000\
+\\008\000\051\000\000\000\
+\\008\000\051\000\000\000\
+\\003\000\024\000\006\000\074\000\009\000\022\000\010\000\021\000\
+\\011\000\020\000\000\000\
+\\000\000\
+\\005\000\076\000\000\000\
+\\000\000\
+\\000\000\
+\\003\000\024\000\006\000\079\000\009\000\022\000\010\000\021\000\
+\\011\000\020\000\000\000\
+\\000\000\
+\\000\000\
+\\000\000\
+\\000\000\
+\\000\000\
+\\000\000\
+\\003\000\024\000\006\000\083\000\009\000\022\000\010\000\021\000\
+\\011\000\020\000\000\000\
 \\000\000\
 \\000\000\
 \\000\000\
 \"
-val numstates = 77
-val numrules = 33
+val numstates = 86
+val numrules = 43
 val s = ref "" and index = ref 0
 val string_to_int = fn () => 
 let val i = !index
@@ -256,8 +294,7 @@ structure MlyValue =
 struct
 datatype svalue = VOID | ntVOID of unit ->  unit
  | STRING of unit ->  (string) | NUM of unit ->  (int)
- | ID of unit ->  (string) | static_ of unit ->  (int)
- | variables_ of unit ->  (int) | program_ of unit ->  (int)
+ | ID of unit ->  (string) | program_ of unit ->  (int)
  | print_ of unit ->  (int) | while_ of unit ->  (int)
  | assignment_ of unit ->  (int) | comparision_ of unit ->  (int)
  | bool_ of unit ->  (int) | body_ of unit ->  (int)
@@ -274,9 +311,9 @@ open LrTable
 infix 5 $$
 fun x $$ y = y::x
 val is_keyword =
-fn (T 28) => true | (T 26) => true | (T 27) => true | (T 31) => true
- | (T 25) => true | (T 24) => true | (T 30) => true | (T 29) => true
- | (T 5) => true | (T 6) => true | (T 32) => true | _ => false
+fn (T 29) => true | (T 27) => true | (T 28) => true | (T 32) => true
+ | (T 26) => true | (T 25) => true | (T 31) => true | (T 30) => true
+ | (T 5) => true | (T 7) => true | (T 33) => true | _ => false
 val preferred_change : (term list * term list) list = 
 (nil
 ,nil
@@ -286,16 +323,16 @@ val preferred_change : (term list * term list) list =
  $$ (T 4))::
 (nil
 ,nil
- $$ (T 9))::
-(nil
-,nil
  $$ (T 10))::
 (nil
 ,nil
- $$ (T 22))::
+ $$ (T 11))::
+(nil
+,nil
+ $$ (T 23))::
 nil
 val noShift = 
-fn (T 7) => true | _ => false
+fn (T 8) => true | _ => false
 val showTerminal =
 fn (T 0) => "ID"
   | (T 1) => "NUM"
@@ -303,44 +340,45 @@ fn (T 0) => "ID"
   | (T 3) => "PLUS"
   | (T 4) => "TIMES"
   | (T 5) => "PRINT"
-  | (T 6) => "SEMI"
-  | (T 7) => "EOF"
-  | (T 8) => "CARAT"
-  | (T 9) => "DIV"
-  | (T 10) => "SUB"
-  | (T 11) => "AND"
-  | (T 12) => "OR"
-  | (T 13) => "EQ"
-  | (T 14) => "ASSIGN"
-  | (T 15) => "GE"
-  | (T 16) => "GT"
-  | (T 17) => "LE"
-  | (T 18) => "LT"
-  | (T 19) => "NEQ"
-  | (T 20) => "LBRACE"
-  | (T 21) => "RBRACE"
-  | (T 22) => "LPAREN"
-  | (T 23) => "RPAREN"
-  | (T 24) => "VAR"
-  | (T 25) => "FUNCTION"
-  | (T 26) => "BREAK"
-  | (T 27) => "CONTINUE"
-  | (T 28) => "WHILE"
-  | (T 29) => "ELSE"
-  | (T 30) => "IF"
-  | (T 31) => "RETURN"
-  | (T 32) => "END"
+  | (T 6) => "COMMA"
+  | (T 7) => "SEMI"
+  | (T 8) => "EOF"
+  | (T 9) => "CARAT"
+  | (T 10) => "DIV"
+  | (T 11) => "SUB"
+  | (T 12) => "AND"
+  | (T 13) => "OR"
+  | (T 14) => "EQ"
+  | (T 15) => "ASSIGN"
+  | (T 16) => "GE"
+  | (T 17) => "GT"
+  | (T 18) => "LE"
+  | (T 19) => "LT"
+  | (T 20) => "NEQ"
+  | (T 21) => "LBRACE"
+  | (T 22) => "RBRACE"
+  | (T 23) => "LPAREN"
+  | (T 24) => "RPAREN"
+  | (T 25) => "VAR"
+  | (T 26) => "FUNCTION"
+  | (T 27) => "BREAK"
+  | (T 28) => "CONTINUE"
+  | (T 29) => "WHILE"
+  | (T 30) => "ELSE"
+  | (T 31) => "IF"
+  | (T 32) => "RETURN"
+  | (T 33) => "END"
   | _ => "bogus-term"
 local open Header in
 val errtermvalue=
 fn _ => MlyValue.VOID
 end
 val terms : term list = nil
- $$ (T 32) $$ (T 31) $$ (T 30) $$ (T 29) $$ (T 28) $$ (T 27) $$ (T 26)
- $$ (T 25) $$ (T 24) $$ (T 23) $$ (T 22) $$ (T 21) $$ (T 20) $$ (T 19)
- $$ (T 18) $$ (T 17) $$ (T 16) $$ (T 15) $$ (T 14) $$ (T 13) $$ (T 12)
- $$ (T 11) $$ (T 10) $$ (T 9) $$ (T 8) $$ (T 7) $$ (T 6) $$ (T 5) $$ 
-(T 4) $$ (T 3)end
+ $$ (T 33) $$ (T 32) $$ (T 31) $$ (T 30) $$ (T 29) $$ (T 28) $$ (T 27)
+ $$ (T 26) $$ (T 25) $$ (T 24) $$ (T 23) $$ (T 22) $$ (T 21) $$ (T 20)
+ $$ (T 19) $$ (T 18) $$ (T 17) $$ (T 16) $$ (T 15) $$ (T 14) $$ (T 13)
+ $$ (T 12) $$ (T 11) $$ (T 10) $$ (T 9) $$ (T 8) $$ (T 7) $$ (T 6) $$ 
+(T 5) $$ (T 4) $$ (T 3)end
 structure Actions =
 struct 
 exception mlyAction of int
@@ -357,12 +395,67 @@ end)
  in ( LrTable.NT 1, ( result, program_1left, program_1right), rest671)
 
 end
-|  ( 1, ( ( _, ( _, END1left, END1right)) :: rest671)) => let val  
+|  ( 1, ( ( _, ( MlyValue.body_ body_1, body_1left, body_1right)) :: 
+rest671)) => let val  result = MlyValue.start (fn _ => let val  (body_
+ as body_1) = body_1 ()
+ in (SOME body_)
+end)
+ in ( LrTable.NT 1, ( result, body_1left, body_1right), rest671)
+end
+|  ( 2, ( ( _, ( MlyValue.exp_ exp_1, exp_1left, exp_1right)) :: 
+rest671)) => let val  result = MlyValue.start (fn _ => let val  (exp_
+ as exp_1) = exp_1 ()
+ in (SOME exp_)
+end)
+ in ( LrTable.NT 1, ( result, exp_1left, exp_1right), rest671)
+end
+|  ( 3, ( ( _, ( MlyValue.assignment_ assignment_1, assignment_1left, 
+assignment_1right)) :: rest671)) => let val  result = MlyValue.start
+ (fn _ => let val  (assignment_ as assignment_1) = assignment_1 ()
+ in (SOME assignment_)
+end)
+ in ( LrTable.NT 1, ( result, assignment_1left, assignment_1right), 
+rest671)
+end
+|  ( 4, ( ( _, ( MlyValue.while_ while_1, while_1left, while_1right))
+ :: rest671)) => let val  result = MlyValue.start (fn _ => let val  (
+while_ as while_1) = while_1 ()
+ in (SOME while_)
+end)
+ in ( LrTable.NT 1, ( result, while_1left, while_1right), rest671)
+end
+|  ( 5, ( ( _, ( MlyValue.print_ print_1, print_1left, print_1right))
+ :: rest671)) => let val  result = MlyValue.start (fn _ => let val  (
+print_ as print_1) = print_1 ()
+ in (SOME print_)
+end)
+ in ( LrTable.NT 1, ( result, print_1left, print_1right), rest671)
+end
+|  ( 6, ( ( _, ( MlyValue.function_ function_1, function_1left, 
+function_1right)) :: rest671)) => let val  result = MlyValue.start (fn
+ _ => let val  (function_ as function_1) = function_1 ()
+ in (SOME function_)
+end)
+ in ( LrTable.NT 1, ( result, function_1left, function_1right), 
+rest671)
+end
+|  ( 7, ( ( _, ( MlyValue.if_ if_1, if_1left, if_1right)) :: rest671))
+ => let val  result = MlyValue.start (fn _ => let val  (if_ as if_1) =
+ if_1 ()
+ in (SOME if_)
+end)
+ in ( LrTable.NT 1, ( result, if_1left, if_1right), rest671)
+end
+|  ( 8, ( rest671)) => let val  result = MlyValue.start (fn _ => (NONE
+))
+ in ( LrTable.NT 1, ( result, defaultPos, defaultPos), rest671)
+end
+|  ( 9, ( ( _, ( _, END1left, END1right)) :: rest671)) => let val  
 result = MlyValue.program_ (fn _ => (901))
  in ( LrTable.NT 11, ( result, END1left, END1right), rest671)
 end
-|  ( 2, ( ( _, ( MlyValue.program_ program_1, _, program_1right)) :: (
- _, ( MlyValue.function_ function_1, function_1left, _)) :: rest671))
+|  ( 10, ( ( _, ( MlyValue.program_ program_1, _, program_1right)) :: 
+( _, ( MlyValue.function_ function_1, function_1left, _)) :: rest671))
  => let val  result = MlyValue.program_ (fn _ => let val  function_1 =
  function_1 ()
  val  program_1 = program_1 ()
@@ -371,13 +464,19 @@ end)
  in ( LrTable.NT 11, ( result, function_1left, program_1right), 
 rest671)
 end
-|  ( 3, ( ( _, ( MlyValue.NUM NUM1, NUM1left, NUM1right)) :: rest671))
- => let val  result = MlyValue.exp_ (fn _ => let val  NUM1 = NUM1 ()
+|  ( 11, ( ( _, ( MlyValue.NUM NUM1, NUM1left, NUM1right)) :: rest671)
+) => let val  result = MlyValue.exp_ (fn _ => let val  NUM1 = NUM1 ()
  in (0)
 end)
  in ( LrTable.NT 0, ( result, NUM1left, NUM1right), rest671)
 end
-|  ( 4, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
+|  ( 12, ( ( _, ( MlyValue.ID ID1, ID1left, ID1right)) :: rest671)) =>
+ let val  result = MlyValue.exp_ (fn _ => let val  ID1 = ID1 ()
+ in (6)
+end)
+ in ( LrTable.NT 0, ( result, ID1left, ID1right), rest671)
+end
+|  ( 13, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
 MlyValue.exp_ exp_1, exp_1left, _)) :: rest671)) => let val  result = 
 MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
  val  exp_2 = exp_2 ()
@@ -385,7 +484,7 @@ MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
 end)
  in ( LrTable.NT 0, ( result, exp_1left, exp_2right), rest671)
 end
-|  ( 5, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
+|  ( 14, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
 MlyValue.exp_ exp_1, exp_1left, _)) :: rest671)) => let val  result = 
 MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
  val  exp_2 = exp_2 ()
@@ -393,7 +492,7 @@ MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
 end)
  in ( LrTable.NT 0, ( result, exp_1left, exp_2right), rest671)
 end
-|  ( 6, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
+|  ( 15, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
 MlyValue.exp_ exp_1, exp_1left, _)) :: rest671)) => let val  result = 
 MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
  val  exp_2 = exp_2 ()
@@ -401,7 +500,7 @@ MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
 end)
  in ( LrTable.NT 0, ( result, exp_1left, exp_2right), rest671)
 end
-|  ( 7, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
+|  ( 16, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
 MlyValue.exp_ exp_1, exp_1left, _)) :: rest671)) => let val  result = 
 MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
  val  exp_2 = exp_2 ()
@@ -409,7 +508,7 @@ MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
 end)
  in ( LrTable.NT 0, ( result, exp_1left, exp_2right), rest671)
 end
-|  ( 8, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
+|  ( 17, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
 MlyValue.exp_ exp_1, exp_1left, _)) :: rest671)) => let val  result = 
 MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
  val  exp_2 = exp_2 ()
@@ -417,7 +516,7 @@ MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
 end)
  in ( LrTable.NT 0, ( result, exp_1left, exp_2right), rest671)
 end
-|  ( 9, ( ( _, ( MlyValue.body_ body_1, _, body_1right)) :: ( _, ( 
+|  ( 18, ( ( _, ( MlyValue.body_ body_1, _, body_1right)) :: ( _, ( 
 MlyValue.assignment_ assignment_1, assignment_1left, _)) :: rest671))
  => let val  result = MlyValue.body_ (fn _ => let val  assignment_1 = 
 assignment_1 ()
@@ -427,7 +526,7 @@ end)
  in ( LrTable.NT 5, ( result, assignment_1left, body_1right), rest671)
 
 end
-|  ( 10, ( ( _, ( MlyValue.body_ body_1, _, body_1right)) :: ( _, ( 
+|  ( 19, ( ( _, ( MlyValue.body_ body_1, _, body_1right)) :: ( _, ( 
 MlyValue.if_ if_1, if_1left, _)) :: rest671)) => let val  result = 
 MlyValue.body_ (fn _ => let val  if_1 = if_1 ()
  val  body_1 = body_1 ()
@@ -435,7 +534,7 @@ MlyValue.body_ (fn _ => let val  if_1 = if_1 ()
 end)
  in ( LrTable.NT 5, ( result, if_1left, body_1right), rest671)
 end
-|  ( 11, ( ( _, ( MlyValue.body_ body_1, _, body_1right)) :: ( _, ( 
+|  ( 20, ( ( _, ( MlyValue.body_ body_1, _, body_1right)) :: ( _, ( 
 MlyValue.while_ while_1, while_1left, _)) :: rest671)) => let val  
 result = MlyValue.body_ (fn _ => let val  while_1 = while_1 ()
  val  body_1 = body_1 ()
@@ -443,7 +542,7 @@ result = MlyValue.body_ (fn _ => let val  while_1 = while_1 ()
 end)
  in ( LrTable.NT 5, ( result, while_1left, body_1right), rest671)
 end
-|  ( 12, ( ( _, ( MlyValue.body_ body_1, _, body_1right)) :: ( _, ( 
+|  ( 21, ( ( _, ( MlyValue.body_ body_1, _, body_1right)) :: ( _, ( 
 MlyValue.print_ print_1, print_1left, _)) :: rest671)) => let val  
 result = MlyValue.body_ (fn _ => let val  print_1 = print_1 ()
  val  body_1 = body_1 ()
@@ -451,81 +550,74 @@ result = MlyValue.body_ (fn _ => let val  print_1 = print_1 ()
 end)
  in ( LrTable.NT 5, ( result, print_1left, body_1right), rest671)
 end
-|  ( 13, ( ( _, ( _, BREAK1left, BREAK1right)) :: rest671)) => let
+|  ( 22, ( ( _, ( _, BREAK1left, BREAK1right)) :: rest671)) => let
  val  result = MlyValue.body_ (fn _ => (404))
  in ( LrTable.NT 5, ( result, BREAK1left, BREAK1right), rest671)
 end
-|  ( 14, ( ( _, ( _, CONTINUE1left, CONTINUE1right)) :: rest671)) =>
+|  ( 23, ( ( _, ( _, CONTINUE1left, CONTINUE1right)) :: rest671)) =>
  let val  result = MlyValue.body_ (fn _ => (405))
  in ( LrTable.NT 5, ( result, CONTINUE1left, CONTINUE1right), rest671)
 
 end
-|  ( 15, ( ( _, ( _, RETURN1left, RETURN1right)) :: rest671)) => let
+|  ( 24, ( ( _, ( _, RETURN1left, RETURN1right)) :: rest671)) => let
  val  result = MlyValue.body_ (fn _ => (406))
  in ( LrTable.NT 5, ( result, RETURN1left, RETURN1right), rest671)
 end
-|  ( 16, ( ( _, ( MlyValue.ID ID1, ID1left, ID1right)) :: rest671)) =>
- let val  result = MlyValue.variables_ (fn _ => let val  ID1 = ID1 ()
- in (502)
-end)
- in ( LrTable.NT 12, ( result, ID1left, ID1right), rest671)
-end
-|  ( 17, ( ( _, ( MlyValue.exp_ exp_1, exp_1left, exp_1right)) :: 
-rest671)) => let val  result = MlyValue.static_ (fn _ => let val  
-exp_1 = exp_1 ()
- in (999)
-end)
- in ( LrTable.NT 13, ( result, exp_1left, exp_1right), rest671)
-end
-|  ( 18, ( ( _, ( MlyValue.variables_ variables_1, variables_1left, 
-variables_1right)) :: rest671)) => let val  result = MlyValue.static_
- (fn _ => let val  variables_1 = variables_1 ()
- in (1000)
-end)
- in ( LrTable.NT 13, ( result, variables_1left, variables_1right), 
-rest671)
-end
-|  ( 19, ( ( _, ( MlyValue.static_ static_1, _, static_1right)) :: _
- :: ( _, ( MlyValue.ID ID1, _, _)) :: ( _, ( _, VAR1left, _)) :: 
-rest671)) => let val  result = MlyValue.assignment_ (fn _ => let val  
-ID1 = ID1 ()
- val  static_1 = static_1 ()
+|  ( 25, ( ( _, ( MlyValue.exp_ exp_1, _, exp_1right)) :: _ :: ( _, ( 
+MlyValue.ID ID1, _, _)) :: ( _, ( _, VAR1left, _)) :: rest671)) => let
+ val  result = MlyValue.assignment_ (fn _ => let val  ID1 = ID1 ()
+ val  exp_1 = exp_1 ()
  in (600)
 end)
- in ( LrTable.NT 8, ( result, VAR1left, static_1right), rest671)
+ in ( LrTable.NT 8, ( result, VAR1left, exp_1right), rest671)
 end
-|  ( 20, ( ( _, ( _, GE1left, GE1right)) :: rest671)) => let val  
+|  ( 26, ( ( _, ( MlyValue.STRING STRING1, _, STRING1right)) :: _ :: (
+ _, ( MlyValue.ID ID1, _, _)) :: ( _, ( _, VAR1left, _)) :: rest671))
+ => let val  result = MlyValue.assignment_ (fn _ => let val  ID1 = ID1
+ ()
+ val  STRING1 = STRING1 ()
+ in (601)
+end)
+ in ( LrTable.NT 8, ( result, VAR1left, STRING1right), rest671)
+end
+|  ( 27, ( ( _, ( _, GE1left, GE1right)) :: rest671)) => let val  
 result = MlyValue.comparision_ (fn _ => (2000))
  in ( LrTable.NT 7, ( result, GE1left, GE1right), rest671)
 end
-|  ( 21, ( ( _, ( _, GT1left, GT1right)) :: rest671)) => let val  
+|  ( 28, ( ( _, ( _, GT1left, GT1right)) :: rest671)) => let val  
 result = MlyValue.comparision_ (fn _ => (2001))
  in ( LrTable.NT 7, ( result, GT1left, GT1right), rest671)
 end
-|  ( 22, ( ( _, ( _, LE1left, LE1right)) :: rest671)) => let val  
+|  ( 29, ( ( _, ( _, LE1left, LE1right)) :: rest671)) => let val  
 result = MlyValue.comparision_ (fn _ => (2002))
  in ( LrTable.NT 7, ( result, LE1left, LE1right), rest671)
 end
-|  ( 23, ( ( _, ( _, LT1left, LT1right)) :: rest671)) => let val  
+|  ( 30, ( ( _, ( _, LT1left, LT1right)) :: rest671)) => let val  
 result = MlyValue.comparision_ (fn _ => (2003))
  in ( LrTable.NT 7, ( result, LT1left, LT1right), rest671)
 end
-|  ( 24, ( ( _, ( _, NEQ1left, NEQ1right)) :: rest671)) => let val  
+|  ( 31, ( ( _, ( _, NEQ1left, NEQ1right)) :: rest671)) => let val  
 result = MlyValue.comparision_ (fn _ => (2004))
  in ( LrTable.NT 7, ( result, NEQ1left, NEQ1right), rest671)
 end
-|  ( 25, ( ( _, ( MlyValue.static_ static_2, _, static_2right)) :: ( _
-, ( MlyValue.comparision_ comparision_1, _, _)) :: ( _, ( 
-MlyValue.static_ static_1, static_1left, _)) :: rest671)) => let val  
-result = MlyValue.bool_ (fn _ => let val  static_1 = static_1 ()
+|  ( 32, ( ( _, ( MlyValue.exp_ exp_1, exp_1left, exp_1right)) :: 
+rest671)) => let val  result = MlyValue.bool_ (fn _ => let val  exp_1
+ = exp_1 ()
+ in (1203)
+end)
+ in ( LrTable.NT 6, ( result, exp_1left, exp_1right), rest671)
+end
+|  ( 33, ( ( _, ( MlyValue.bool_ bool_2, _, bool_2right)) :: ( _, ( 
+MlyValue.comparision_ comparision_1, _, _)) :: ( _, ( MlyValue.bool_ 
+bool_1, bool_1left, _)) :: rest671)) => let val  result = 
+MlyValue.bool_ (fn _ => let val  bool_1 = bool_1 ()
  val  comparision_1 = comparision_1 ()
- val  static_2 = static_2 ()
+ val  bool_2 = bool_2 ()
  in (1200)
 end)
- in ( LrTable.NT 6, ( result, static_1left, static_2right), rest671)
-
+ in ( LrTable.NT 6, ( result, bool_1left, bool_2right), rest671)
 end
-|  ( 26, ( ( _, ( MlyValue.bool_ bool_2, _, bool_2right)) :: _ :: ( _,
+|  ( 34, ( ( _, ( MlyValue.bool_ bool_2, _, bool_2right)) :: _ :: ( _,
  ( MlyValue.bool_ bool_1, bool_1left, _)) :: rest671)) => let val  
 result = MlyValue.bool_ (fn _ => let val  bool_1 = bool_1 ()
  val  bool_2 = bool_2 ()
@@ -533,15 +625,15 @@ result = MlyValue.bool_ (fn _ => let val  bool_1 = bool_1 ()
 end)
  in ( LrTable.NT 6, ( result, bool_1left, bool_2right), rest671)
 end
-|  ( 27, ( ( _, ( MlyValue.body_ body_1, _, body_1right)) :: _ :: ( _,
+|  ( 35, ( ( _, ( MlyValue.bool_ bool_2, _, bool_2right)) :: _ :: ( _,
  ( MlyValue.bool_ bool_1, bool_1left, _)) :: rest671)) => let val  
 result = MlyValue.bool_ (fn _ => let val  bool_1 = bool_1 ()
- val  body_1 = body_1 ()
+ val  bool_2 = bool_2 ()
  in (1202)
 end)
- in ( LrTable.NT 6, ( result, bool_1left, body_1right), rest671)
+ in ( LrTable.NT 6, ( result, bool_1left, bool_2right), rest671)
 end
-|  ( 28, ( ( _, ( _, _, RBRACE1right)) :: ( _, ( MlyValue.body_ body_1
+|  ( 36, ( ( _, ( _, _, RBRACE1right)) :: ( _, ( MlyValue.body_ body_1
 , _, _)) :: _ :: _ :: ( _, ( MlyValue.bool_ bool_1, _, _)) :: _ :: ( _
 , ( _, WHILE1left, _)) :: rest671)) => let val  result = 
 MlyValue.while_ (fn _ => let val  bool_1 = bool_1 ()
@@ -550,15 +642,28 @@ MlyValue.while_ (fn _ => let val  bool_1 = bool_1 ()
 end)
  in ( LrTable.NT 9, ( result, WHILE1left, RBRACE1right), rest671)
 end
-|  ( 29, ( ( _, ( _, _, RPAREN1right)) :: ( _, ( MlyValue.static_ 
-static_1, _, _)) :: _ :: ( _, ( _, PRINT1left, _)) :: rest671)) => let
- val  result = MlyValue.print_ (fn _ => let val  static_1 = static_1
- ()
+|  ( 37, ( ( _, ( _, _, RPAREN1right)) :: ( _, ( MlyValue.exp_ exp_1,
+ _, _)) :: _ :: ( _, ( _, PRINT1left, _)) :: rest671)) => let val  
+result = MlyValue.print_ (fn _ => let val  exp_1 = exp_1 ()
  in (800)
 end)
  in ( LrTable.NT 10, ( result, PRINT1left, RPAREN1right), rest671)
 end
-|  ( 30, ( ( _, ( _, _, RBRACE1right)) :: ( _, ( MlyValue.body_ body_1
+|  ( 38, ( ( _, ( MlyValue.ID ID1, ID1left, ID1right)) :: rest671)) =>
+ let val  result = MlyValue.params_ (fn _ => let val  ID1 = ID1 ()
+ in (3000)
+end)
+ in ( LrTable.NT 4, ( result, ID1left, ID1right), rest671)
+end
+|  ( 39, ( ( _, ( MlyValue.params_ params_1, _, params_1right)) :: _
+ :: ( _, ( MlyValue.ID ID1, ID1left, _)) :: rest671)) => let val  
+result = MlyValue.params_ (fn _ => let val  ID1 = ID1 ()
+ val  params_1 = params_1 ()
+ in (3001)
+end)
+ in ( LrTable.NT 4, ( result, ID1left, params_1right), rest671)
+end
+|  ( 40, ( ( _, ( _, _, RBRACE1right)) :: ( _, ( MlyValue.body_ body_1
 , _, _)) :: _ :: _ :: ( _, ( MlyValue.params_ params_1, _, _)) :: _ ::
  ( _, ( MlyValue.ID ID1, _, _)) :: ( _, ( _, FUNCTION1left, _)) :: 
 rest671)) => let val  result = MlyValue.function_ (fn _ => let val  
@@ -570,7 +675,7 @@ end)
  in ( LrTable.NT 3, ( result, FUNCTION1left, RBRACE1right), rest671)
 
 end
-|  ( 31, ( ( _, ( _, _, RBRACE1right)) :: ( _, ( MlyValue.body_ body_1
+|  ( 41, ( ( _, ( _, _, RBRACE1right)) :: ( _, ( MlyValue.body_ body_1
 , _, _)) :: _ :: _ :: ( _, ( MlyValue.bool_ bool_1, _, _)) :: _ :: ( _
 , ( _, IF1left, _)) :: rest671)) => let val  result = MlyValue.if_ (fn
  _ => let val  bool_1 = bool_1 ()
@@ -579,7 +684,7 @@ end
 end)
  in ( LrTable.NT 2, ( result, IF1left, RBRACE1right), rest671)
 end
-|  ( 32, ( ( _, ( _, _, RBRACE2right)) :: ( _, ( MlyValue.body_ body_2
+|  ( 42, ( ( _, ( _, _, RBRACE2right)) :: ( _, ( MlyValue.body_ body_2
 , _, _)) :: _ :: _ :: _ :: ( _, ( MlyValue.body_ body_1, _, _)) :: _
  :: _ :: ( _, ( MlyValue.bool_ bool_1, _, _)) :: _ :: ( _, ( _, 
 IF1left, _)) :: rest671)) => let val  result = MlyValue.if_ (fn _ =>
@@ -614,59 +719,61 @@ fun TIMES (p1,p2) = Token.TOKEN (ParserData.LrTable.T 4,(
 ParserData.MlyValue.VOID,p1,p2))
 fun PRINT (p1,p2) = Token.TOKEN (ParserData.LrTable.T 5,(
 ParserData.MlyValue.VOID,p1,p2))
-fun SEMI (p1,p2) = Token.TOKEN (ParserData.LrTable.T 6,(
+fun COMMA (p1,p2) = Token.TOKEN (ParserData.LrTable.T 6,(
 ParserData.MlyValue.VOID,p1,p2))
-fun EOF (p1,p2) = Token.TOKEN (ParserData.LrTable.T 7,(
+fun SEMI (p1,p2) = Token.TOKEN (ParserData.LrTable.T 7,(
 ParserData.MlyValue.VOID,p1,p2))
-fun CARAT (p1,p2) = Token.TOKEN (ParserData.LrTable.T 8,(
+fun EOF (p1,p2) = Token.TOKEN (ParserData.LrTable.T 8,(
 ParserData.MlyValue.VOID,p1,p2))
-fun DIV (p1,p2) = Token.TOKEN (ParserData.LrTable.T 9,(
+fun CARAT (p1,p2) = Token.TOKEN (ParserData.LrTable.T 9,(
 ParserData.MlyValue.VOID,p1,p2))
-fun SUB (p1,p2) = Token.TOKEN (ParserData.LrTable.T 10,(
+fun DIV (p1,p2) = Token.TOKEN (ParserData.LrTable.T 10,(
 ParserData.MlyValue.VOID,p1,p2))
-fun AND (p1,p2) = Token.TOKEN (ParserData.LrTable.T 11,(
+fun SUB (p1,p2) = Token.TOKEN (ParserData.LrTable.T 11,(
 ParserData.MlyValue.VOID,p1,p2))
-fun OR (p1,p2) = Token.TOKEN (ParserData.LrTable.T 12,(
+fun AND (p1,p2) = Token.TOKEN (ParserData.LrTable.T 12,(
 ParserData.MlyValue.VOID,p1,p2))
-fun EQ (p1,p2) = Token.TOKEN (ParserData.LrTable.T 13,(
+fun OR (p1,p2) = Token.TOKEN (ParserData.LrTable.T 13,(
 ParserData.MlyValue.VOID,p1,p2))
-fun ASSIGN (p1,p2) = Token.TOKEN (ParserData.LrTable.T 14,(
+fun EQ (p1,p2) = Token.TOKEN (ParserData.LrTable.T 14,(
 ParserData.MlyValue.VOID,p1,p2))
-fun GE (p1,p2) = Token.TOKEN (ParserData.LrTable.T 15,(
+fun ASSIGN (p1,p2) = Token.TOKEN (ParserData.LrTable.T 15,(
 ParserData.MlyValue.VOID,p1,p2))
-fun GT (p1,p2) = Token.TOKEN (ParserData.LrTable.T 16,(
+fun GE (p1,p2) = Token.TOKEN (ParserData.LrTable.T 16,(
 ParserData.MlyValue.VOID,p1,p2))
-fun LE (p1,p2) = Token.TOKEN (ParserData.LrTable.T 17,(
+fun GT (p1,p2) = Token.TOKEN (ParserData.LrTable.T 17,(
 ParserData.MlyValue.VOID,p1,p2))
-fun LT (p1,p2) = Token.TOKEN (ParserData.LrTable.T 18,(
+fun LE (p1,p2) = Token.TOKEN (ParserData.LrTable.T 18,(
 ParserData.MlyValue.VOID,p1,p2))
-fun NEQ (p1,p2) = Token.TOKEN (ParserData.LrTable.T 19,(
+fun LT (p1,p2) = Token.TOKEN (ParserData.LrTable.T 19,(
 ParserData.MlyValue.VOID,p1,p2))
-fun LBRACE (p1,p2) = Token.TOKEN (ParserData.LrTable.T 20,(
+fun NEQ (p1,p2) = Token.TOKEN (ParserData.LrTable.T 20,(
 ParserData.MlyValue.VOID,p1,p2))
-fun RBRACE (p1,p2) = Token.TOKEN (ParserData.LrTable.T 21,(
+fun LBRACE (p1,p2) = Token.TOKEN (ParserData.LrTable.T 21,(
 ParserData.MlyValue.VOID,p1,p2))
-fun LPAREN (p1,p2) = Token.TOKEN (ParserData.LrTable.T 22,(
+fun RBRACE (p1,p2) = Token.TOKEN (ParserData.LrTable.T 22,(
 ParserData.MlyValue.VOID,p1,p2))
-fun RPAREN (p1,p2) = Token.TOKEN (ParserData.LrTable.T 23,(
+fun LPAREN (p1,p2) = Token.TOKEN (ParserData.LrTable.T 23,(
 ParserData.MlyValue.VOID,p1,p2))
-fun VAR (p1,p2) = Token.TOKEN (ParserData.LrTable.T 24,(
+fun RPAREN (p1,p2) = Token.TOKEN (ParserData.LrTable.T 24,(
 ParserData.MlyValue.VOID,p1,p2))
-fun FUNCTION (p1,p2) = Token.TOKEN (ParserData.LrTable.T 25,(
+fun VAR (p1,p2) = Token.TOKEN (ParserData.LrTable.T 25,(
 ParserData.MlyValue.VOID,p1,p2))
-fun BREAK (p1,p2) = Token.TOKEN (ParserData.LrTable.T 26,(
+fun FUNCTION (p1,p2) = Token.TOKEN (ParserData.LrTable.T 26,(
 ParserData.MlyValue.VOID,p1,p2))
-fun CONTINUE (p1,p2) = Token.TOKEN (ParserData.LrTable.T 27,(
+fun BREAK (p1,p2) = Token.TOKEN (ParserData.LrTable.T 27,(
 ParserData.MlyValue.VOID,p1,p2))
-fun WHILE (p1,p2) = Token.TOKEN (ParserData.LrTable.T 28,(
+fun CONTINUE (p1,p2) = Token.TOKEN (ParserData.LrTable.T 28,(
 ParserData.MlyValue.VOID,p1,p2))
-fun ELSE (p1,p2) = Token.TOKEN (ParserData.LrTable.T 29,(
+fun WHILE (p1,p2) = Token.TOKEN (ParserData.LrTable.T 29,(
 ParserData.MlyValue.VOID,p1,p2))
-fun IF (p1,p2) = Token.TOKEN (ParserData.LrTable.T 30,(
+fun ELSE (p1,p2) = Token.TOKEN (ParserData.LrTable.T 30,(
 ParserData.MlyValue.VOID,p1,p2))
-fun RETURN (p1,p2) = Token.TOKEN (ParserData.LrTable.T 31,(
+fun IF (p1,p2) = Token.TOKEN (ParserData.LrTable.T 31,(
 ParserData.MlyValue.VOID,p1,p2))
-fun END (p1,p2) = Token.TOKEN (ParserData.LrTable.T 32,(
+fun RETURN (p1,p2) = Token.TOKEN (ParserData.LrTable.T 32,(
+ParserData.MlyValue.VOID,p1,p2))
+fun END (p1,p2) = Token.TOKEN (ParserData.LrTable.T 33,(
 ParserData.MlyValue.VOID,p1,p2))
 end
 end

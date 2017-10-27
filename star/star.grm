@@ -17,7 +17,7 @@
 %left OR
 
 %term ID of string | NUM of int | STRING of string
-      | PLUS | TIMES | PRINT
+      | PLUS | TIMES | PRINT | COMMA
       | SEMI | EOF | CARAT | DIV | SUB
       | AND | OR | EQ | ASSIGN
       | GE | GT | LE | LT | NEQ
@@ -38,8 +38,6 @@
         | while_ of int
         | print_ of int
         | program_ of int
-        | variables_ of int
-        | static_ of int
 
 %name Star
 
@@ -53,10 +51,20 @@
 (* the parser returns the value associated with the exp_ression *)
 
   start : program_ (SOME program_)
+        | body_ (SOME body_)
+        | exp_ (SOME exp_)
+        | assignment_ (SOME assignment_)
+        | while_ (SOME while_)
+        | print_ (SOME print_)
+        | function_ (SOME function_)
+        | if_ (SOME if_)
+        | (NONE)
+
 
   program_ : END (901) | function_ program_ (900)
 
-  exp_ : NUM             (0)
+  exp_ : NUM              (0)
+      | ID                (6)
       | exp_ PLUS exp_    (1)
       | exp_ TIMES exp_   (2)
       | exp_ DIV exp_     (3)
@@ -69,22 +77,23 @@
         | print_ body_      (403)
         | BREAK             (404)
         | CONTINUE          (405)
-        | RETURN       (406)
+        | RETURN            (406)
 
-  variables_ : ID (502)
-  static_ : exp_ (999) | variables_ (1000)
-
-  assignment_ : VAR ID ASSIGN static_  (600)
+  assignment_ : VAR ID ASSIGN exp_  (600)
+              | VAR ID ASSIGN STRING  (601)
 
   comparision_ : GE (2000) | GT (2001) | LE (2002) | LT (2003) | NEQ (2004)
 
-  bool_ : static_ comparision_ static_  (1200)
+  bool_ : exp_                          (1203)
+        | bool_ comparision_ bool_      (1200)
         | bool_ AND bool_               (1201)
-        | bool_ OR body_                (1202)
+        | bool_ OR bool_                (1202)
 
   while_ : WHILE LPAREN bool_ RPAREN LBRACE body_ RBRACE (700)
 
-  print_ : PRINT LPAREN static_ RPAREN (800)
+  print_ : PRINT LPAREN exp_ RPAREN (800)
+
+  params_ : ID (3000) | ID COMMA params_ (3001)
 
   function_ : FUNCTION ID LPAREN params_ RPAREN LBRACE body_ RBRACE (300)
 

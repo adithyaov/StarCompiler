@@ -29,6 +29,7 @@ val DIV:  'a * 'a -> (svalue,'a) token
 val CARAT:  'a * 'a -> (svalue,'a) token
 val EOF:  'a * 'a -> (svalue,'a) token
 val SEMI:  'a * 'a -> (svalue,'a) token
+val COMMA:  'a * 'a -> (svalue,'a) token
 val PRINT:  'a * 'a -> (svalue,'a) token
 val TIMES:  'a * 'a -> (svalue,'a) token
 val PLUS:  'a * 'a -> (svalue,'a) token
