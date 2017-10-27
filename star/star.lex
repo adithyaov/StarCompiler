@@ -49,6 +49,7 @@ ws = [\ \t];
 "else" => (Tokens.ELSE(!pos,!pos));
 "if" => (Tokens.IF(!pos,!pos));
 "return" => (Tokens.RETURN(!pos,!pos));
+"end" => (Tokens.END(!pos,!pos));
 
 {ws}+    => (lex());
 :{alpha}+: => (Tokens.STRING(yytext,!pos,!pos));

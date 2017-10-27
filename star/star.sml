@@ -44,7 +44,6 @@ struct
       let 
       val lexer = StarParser.makeLexer (fn _ => (getProper "" (TextIO.inputLine TextIO.stdIn)))
 	  val dummyEOF = StarLrVals.Tokens.EOF(0,0)
-	  val dummySEMI = StarLrVals.Tokens.SEMI(0,0)
 	  fun loop lexer =
 	      let val (result,lexer) = invoke lexer
 		  val (nextToken,lexer) = StarParser.Stream.get lexer

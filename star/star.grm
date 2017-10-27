@@ -1,4 +1,4 @@
-(* Interactive lang transpiler ? *)
+(* Interactive lang transpiler ? :-) *)
 
 
 %%
@@ -13,6 +13,8 @@
 %left SUB PLUS
 %left TIMES DIV
 %right CARAT
+%left AND
+%left OR
 
 %term ID of string | NUM of int | STRING of string
       | PLUS | TIMES | PRINT
@@ -22,9 +24,9 @@
       | LBRACE | RBRACE | LPAREN | RPAREN
       | VAR | FUNCTION | BREAK | CONTINUE
       | WHILE | ELSE | IF | RETURN
+      | END
 
-%nonterm exp_ of int 
-        | kwo_ of int 
+%nonterm exp_ of int
         | start of int option
         | if_ of int
         | function_ of int
@@ -35,7 +37,6 @@
         | assignment_ of int
         | while_ of int
         | print_ of int
-        | constants_ of int
         | program_ of int
         | variables_ of int
         | static_ of int
@@ -43,7 +44,7 @@
 %name Star
 
 %prefer PLUS TIMES DIV SUB LPAREN
-%keyword WHILE BREAK CONTINUE RETURN FUNCTION VAR IF ELSE PRINT SEMI
+%keyword WHILE BREAK CONTINUE RETURN FUNCTION VAR IF ELSE PRINT SEMI END
 
 %noshift EOF
 %verbose
@@ -52,16 +53,8 @@
 (* the parser returns the value associated with the exp_ression *)
 
   start : program_ (SOME program_)
-        | body_ (SOME body_)
-        | constants_ (SOME constants_)
-        | assignment_ (SOME assignment_)
-        | while_ (SOME while_)
-        | print_ (SOME print_)
-        | function_ (SOME function_)
-        | if_ (SOME if_)
-        | (NONE)
 
-  program_ : EOF (901) | function_ program_ (900)
+  program_ : END (901) | function_ program_ (900)
 
   exp_ : NUM             (0)
       | exp_ PLUS exp_    (1)
@@ -78,12 +71,10 @@
         | CONTINUE          (405)
         | RETURN       (406)
 
-  constants_ : NUM (500) | STRING (501)
   variables_ : ID (502)
-  static_ : constants_ (999) | variables_ (1000)
+  static_ : exp_ (999) | variables_ (1000)
 
-  assignment_ : VAR ID ASSIGN constants_  (600)
-              | VAR ID ASSIGN exp_        (601)
+  assignment_ : VAR ID ASSIGN static_  (600)
 
   comparision_ : GE (2000) | GT (2001) | LE (2002) | LT (2003) | NEQ (2004)
 
@@ -93,21 +84,11 @@
 
   while_ : WHILE LPAREN bool_ RPAREN LBRACE body_ RBRACE (700)
 
-  print_ : PRINT LPAREN constants_ RPAREN (800)
+  print_ : PRINT LPAREN static_ RPAREN (800)
 
   function_ : FUNCTION ID LPAREN params_ RPAREN LBRACE body_ RBRACE (300)
 
   if_ : IF LPAREN bool_ RPAREN LBRACE body_ RBRACE  (200)
       | IF LPAREN bool_ RPAREN LBRACE body_ RBRACE ELSE LBRACE body_ RBRACE (201)
 
-  kwo_ : VAR  (100)
-      | WHILE (101)
-      | BREAK (102)
-      | CONTINUE (103)
-      | RETURN (104)
-      | FUNCTION (105)
-      | VAR (106)
-      | IF (107)
-      | ELSE (108)
-      | PRINT (109)
-      | SEMI (110)
+
