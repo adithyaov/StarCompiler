@@ -33,11 +33,12 @@
         | params_ of int
         | body_ of int
         | bool_ of int
-        | comparision_ of int
+        | comparison_ of int
         | assignment_ of int
         | while_ of int
         | print_ of int
         | program_ of int
+        | stm_ of int
 
 %name Star
 
@@ -51,15 +52,13 @@
 (* the parser returns the value associated with the exp_ression *)
 
   start : program_ (SOME program_)
-        | body_ (SOME body_)
+  		| stm_ (SOME stm_)
         | exp_ (SOME exp_)
-        | assignment_ (SOME assignment_)
-        | while_ (SOME while_)
-        | print_ (SOME print_)
-        | function_ (SOME function_)
-        | if_ (SOME if_)
-        | (NONE)
-
+   
+  stm_ : assignment_ (4001)
+  	   | if_         (4002)
+  	   | while_      (4003)
+  	   | print_      (4004)   
 
   program_ : END (901) | function_ program_ (900)
 
@@ -71,21 +70,20 @@
       | exp_ SUB exp_     (4)
       | exp_ CARAT exp_   (5)
 
-  body_ : assignment_ body_ (400)
-        | if_ body_         (401)
-        | while_ body_      (402)
-        | print_ body_      (403)
-        | BREAK             (404)
-        | CONTINUE          (405)
-        | RETURN            (406)
-
+  body_ : stm_ body_        (400)
+        | BREAK body_       (404)
+        | CONTINUE body_    (405)
+        | RETURN  body_     (406)
+        | stm_              (407)
+        | RETURN            (408)  
+       
   assignment_ : VAR ID ASSIGN exp_  (600)
               | VAR ID ASSIGN STRING  (601)
 
-  comparision_ : GE (2000) | GT (2001) | LE (2002) | LT (2003) | NEQ (2004)
+  comparison_ : GE (2000) | GT (2001) | LE (2002) | LT (2003) | NEQ (2004) | EQ (2005)
 
   bool_ : exp_                          (1203)
-        | bool_ comparision_ bool_      (1200)
+        | exp_ comparison_ exp_      (1200)
         | bool_ AND bool_               (1201)
         | bool_ OR bool_                (1202)
 
