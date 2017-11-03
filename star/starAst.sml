@@ -15,8 +15,8 @@ struct
 				| CONTINUE 
 				| RETURN
 
-	and Prog_ = ProgPart of Function_ * Prog_
-				| ProgPart of Stmt_ * Prog_ 
+	and Prog_ = ProgPart1 of Function_ * Prog_
+				| ProgPart2 of Stmt_ * Prog_ 
 				| END
 
 	and Body_ = StmtList of Stmt_ * Body_
