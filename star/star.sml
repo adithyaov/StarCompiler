@@ -4,9 +4,7 @@
  * parser and lexer specified in star.lex and star.grm.
 *)
 
-structure Star : sig
-	           val parse : unit -> unit
-                 end = 
+structure Star = 
 struct
 
 (* 
@@ -40,7 +38,7 @@ struct
  fun getProper ifNone NONE = ifNone
     | getProper ifNone rest = valOf(rest);
 
-  fun parse () = 
+(*  fun parse () = 
       let 
       val lexer = StarParser.makeLexer (fn _ => (getProper "" (TextIO.inputLine TextIO.stdIn)))
 	  val dummyEOF = StarLrVals.Tokens.EOF(0,0)
@@ -48,14 +46,19 @@ struct
 	      let val (result,lexer) = invoke lexer
 		  val (nextToken,lexer) = StarParser.Stream.get lexer
 		  val _ = case result
-			    of SOME r =>
-				TextIO.output(TextIO.stdOut,
-				       "result = " ^ (Int.toString r) ^ "\n")
-			     | NONE => ()
+			    of SOME r => r
 	       in if StarParser.sameToken(nextToken,dummyEOF) then ()
 		  else loop lexer
 	      end
        in loop lexer
-      end
+      end*)
 
-end (* structure Star *)
+  fun parse () = 
+      let 
+      val lexer = StarParser.makeLexer (fn _ => (getProper "" (TextIO.inputLine TextIO.stdIn)))
+	  val (result,lexer) = invoke lexer
+	  in 
+	  	result
+	  end
+
+end

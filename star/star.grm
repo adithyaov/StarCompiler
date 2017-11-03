@@ -94,11 +94,11 @@ structure Ast = StarAst
 
   print_ : PRINT LPAREN exp_ RPAREN (Ast.PrintStmt(exp_))
 
-  params_ : ID ([ID]) | ID COMMA params_ (ID::params_)
+  params_ : ([]) | ID ([ID]) | ID COMMA params_ (ID::params_)
 
   function_ : FUNCTION ID LPAREN params_ RPAREN LBRACE body_ RBRACE (Ast.Function(ID, params_, body_))
 
-  functionCallParams_ : exp_ ([exp_]) | exp_ COMMA functionCallParams_ (exp_::functionCallParams_)
+  functionCallParams_ : ([]) | exp_ ([exp_]) | exp_ COMMA functionCallParams_ (exp_::functionCallParams_)
 
   functionCall_ : ID LPAREN functionCallParams_ RPAREN  (Ast.CallExp(ID, functionCallParams_))
 

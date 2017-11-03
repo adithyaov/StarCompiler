@@ -89,7 +89,7 @@ state 7:
 
 	params_	goto 8
 
-	.	error
+	.	reduce by rule 34
 
 
 state 8:
@@ -104,13 +104,13 @@ state 8:
 
 state 9:
 
-	params_ : ID .  (reduce by rule 34)
+	params_ : ID .  (reduce by rule 35)
 	params_ : ID . COMMA params_ 
 
 	COMMA	shift 11
 
 
-	.	reduce by rule 34
+	.	reduce by rule 35
 
 
 state 10:
@@ -131,7 +131,7 @@ state 11:
 
 	params_	goto 13
 
-	.	error
+	.	reduce by rule 34
 
 
 state 12:
@@ -158,11 +158,11 @@ state 12:
 
 state 13:
 
-	params_ : ID COMMA params_ .  (reduce by rule 35)
+	params_ : ID COMMA params_ .  (reduce by rule 36)
 
 
 
-	.	reduce by rule 35
+	.	reduce by rule 36
 
 
 state 14:
@@ -313,11 +313,11 @@ state 27:
 
 state 28:
 
-	function_ : FUNCTION ID LPAREN params_ RPAREN LBRACE body_ RBRACE .  (reduce by rule 36)
+	function_ : FUNCTION ID LPAREN params_ RPAREN LBRACE body_ RBRACE .  (reduce by rule 37)
 
 
 
-	.	reduce by rule 36
+	.	reduce by rule 37
 
 
 state 29:
@@ -882,13 +882,13 @@ state 70:
 
 state 71:
 
-	if_ : IF LPAREN bool_ RPAREN LBRACE body_ RBRACE .  (reduce by rule 40)
+	if_ : IF LPAREN bool_ RPAREN LBRACE body_ RBRACE .  (reduce by rule 41)
 	if_ : IF LPAREN bool_ RPAREN LBRACE body_ RBRACE . ELSE LBRACE body_ RBRACE 
 
 	ELSE	shift 73
 
 
-	.	reduce by rule 40
+	.	reduce by rule 41
 
 
 state 72:
@@ -944,11 +944,11 @@ state 75:
 
 state 76:
 
-	if_ : IF LPAREN bool_ RPAREN LBRACE body_ RBRACE ELSE LBRACE body_ RBRACE .  (reduce by rule 41)
+	if_ : IF LPAREN bool_ RPAREN LBRACE body_ RBRACE ELSE LBRACE body_ RBRACE .  (reduce by rule 42)
 
 
 
-	.	reduce by rule 41
+	.	reduce by rule 42
 
 
 state 77:
