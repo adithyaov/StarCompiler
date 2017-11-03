@@ -56,52 +56,47 @@ structure Ast = StarAst
 (* the parser returns the value associated with the exp_ression *)
 
   start : program_ (SOME (Ast.Prog(program_)))
-   
-  stm_ : assignment_ (Ast.Stmt(assignment_))
-  	   | if_         (Ast.Stmt(if_))
-  	   | while_      (Ast.Stmt(while_))
-  	   | print_      (Ast.Stmt(print_))
-       | BREAK       (Ast.Stmt(Ast.BREAK)) 
-       | CONTINUE    (Ast.Stmt(Ast.CONTINUE)) 
-       | RETURN      (Ast.Stmt(Ast.RETURN)) 
-
-  program_ : END (Ast.END) 
-    | function_ program_ (Ast.ProgPart(function_, program_))
+  
+  program_ : function_ program_ 												(Ast.ProgPart(function_, program_))
+		   | stm_ program_                                                      (Ast.ProgPart(stm_, program_))
+		   | END  																(Ast.END)
+  
+  stm_ : VAR ID ASSIGN exp_  													(Ast.AssStmt(ID, exp_))
+  	   | IF LPAREN bool_ RPAREN LBRACE body_ RBRACE  							(Ast.IfStmt(bool_, body_))
+  	   | IF LPAREN bool_ RPAREN LBRACE body_ RBRACE ELSE LBRACE body_ RBRACE    (Ast.IfElseStmt(bool_, body_, body_))
+  	   | WHILE LPAREN bool_ RPAREN LBRACE body_ RBRACE 							(Ast.WhileStmt(bool_, body_))
+  	   | PRINT LPAREN exp_ RPAREN 												(Ast.PrintStmt(exp_))
+       | BREAK       															(Ast.BREAK) 
+       | CONTINUE    															(Ast.CONTINUE) 
+       | RETURN      															(Ast.RETURN) 
 
   functionCallParams_ : ([]) | exp_ ([exp_]) | exp_ COMMA functionCallParams_ (exp_::functionCallParams_)
 
-  exp_ : NUM              (Ast.IntExp(NUM))
-        | STRING            (Ast.StringExp(STRING))
-        | ID               (Ast.IdExp(ID))
-        | exp_ PLUS exp_    (Ast.OpExp(exp_1, Ast.Plus, exp_2))
-        | exp_ TIMES exp_   (Ast.OpExp(exp_1, Ast.Times, exp_2))
-        | exp_ DIV exp_     (Ast.OpExp(exp_1, Ast.Divide, exp_2))
-        | exp_ SUB exp_     (Ast.OpExp(exp_1, Ast.Minus, exp_2))
-        | exp_ CARAT exp_   (Ast.OpExp(exp_1, Ast.Carat, exp_2))
-        | ID LPAREN functionCallParams_ RPAREN  (Ast.CallExp(ID, functionCallParams_))
+  exp_ : NUM              														(Ast.IntExp(NUM))
+        | STRING            													(Ast.StringExp(STRING))
+        | ID               														(Ast.IdExp(ID))
+        | ID LPAREN functionCallParams_ RPAREN  								(Ast.CallExp(ID, functionCallParams_))
+        | LPAREN exp_ RPAREN                                                    (exp_)
+        | exp_ PLUS exp_    													(Ast.OpExp(exp_1, Ast.Plus, exp_2))
+        | exp_ TIMES exp_   													(Ast.OpExp(exp_1, Ast.Times, exp_2))
+        | exp_ DIV exp_     													(Ast.OpExp(exp_1, Ast.Divide, exp_2))
+        | exp_ SUB exp_     													(Ast.OpExp(exp_1, Ast.Minus, exp_2))
+        | exp_ CARAT exp_   													(Ast.OpExp(exp_1, Ast.Carat, exp_2))
 
-  body_ : stm_ body_        (Ast.StmtList(stm_, body_))
-        | stm_              (Ast.StmtLast(stm_))
-       
-  assignment_ : VAR ID ASSIGN exp_  (Ast.AssStmt(ID, exp_))
+  body_ : stm_ body_        													(Ast.StmtList(stm_, body_))
+        | stm_              													(Ast.StmtLast(stm_))
 
   comparison_ : GE (Ast.GeOp) | GT (Ast.GtOp) | LE (Ast.LeOp) | LT (Ast.LtOp) | NEQ (Ast.NeqOp) | EQ (Ast.EqOp)
 
   logic_ : AND (Ast.AND) | OR (Ast.OR)
 
-  bool_ : exp_                          (Ast.BoolExp1(exp_))
-        | exp_ comparison_ exp_      (Ast.BoolExp2(exp_1, comparison_, exp_2))
-        | bool_ logic_ bool_      (Ast.BoolExp3(bool_1, logic_, bool_2))
+  bool_ : exp_ comparison_ exp_      											(Ast.BoolExp2(exp_1, comparison_, exp_2))
+        | bool_ logic_ bool_      												(Ast.BoolExp3(bool_1, logic_, bool_2))
 
-  while_ : WHILE LPAREN bool_ RPAREN LBRACE body_ RBRACE (Ast.WhileStmt(bool_, body_))
-
-  print_ : PRINT LPAREN exp_ RPAREN (Ast.PrintStmt(exp_))
 
   params_ : ([]) | ID ([ID]) | ID COMMA params_ (ID::params_)
 
-  function_ : FUNCTION ID LPAREN params_ RPAREN LBRACE body_ RBRACE (Ast.Function(ID, params_, body_))
+  function_ : FUNCTION ID LPAREN params_ RPAREN LBRACE body_ RBRACE 			(Ast.Function(ID, params_, body_))
 
-  if_ : IF LPAREN bool_ RPAREN LBRACE body_ RBRACE  (Ast.IfStmt(bool_, body_))
-      | IF LPAREN bool_ RPAREN LBRACE body_ RBRACE ELSE LBRACE body_ RBRACE (Ast.IfElseStmt(bool_, body_, body_))
 
 
