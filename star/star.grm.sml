@@ -62,12 +62,12 @@ val table=let val actionRows =
 \\099\000\000\000\
 \\100\000\000\000\
 \\101\000\024\000\059\000\000\000\
-\\102\000\005\000\057\000\010\000\056\000\011\000\055\000\000\000\
-\\103\000\010\000\056\000\000\000\
+\\102\000\000\000\
+\\103\000\005\000\057\000\010\000\056\000\011\000\055\000\000\000\
 \\104\000\010\000\056\000\000\000\
-\\105\000\005\000\057\000\010\000\056\000\011\000\055\000\000\000\
-\\106\000\010\000\056\000\000\000\
-\\107\000\000\000\
+\\105\000\010\000\056\000\000\000\
+\\106\000\005\000\057\000\010\000\056\000\011\000\055\000\000\000\
+\\107\000\010\000\056\000\000\000\
 \\108\000\000\000\
 \\109\000\006\000\028\000\026\000\027\000\028\000\026\000\029\000\025\000\
 \\030\000\024\000\032\000\023\000\033\000\022\000\000\000\
@@ -113,9 +113,9 @@ val actionRowNumbers =
 \\002\000\002\000\002\000\002\000\
 \\002\000\034\000\011\000\048\000\
 \\061\000\059\000\004\000\058\000\
-\\043\000\042\000\044\000\041\000\
-\\040\000\022\000\035\000\004\000\
-\\014\000\045\000\034\000\015\000\
+\\044\000\043\000\045\000\042\000\
+\\041\000\022\000\035\000\004\000\
+\\014\000\040\000\034\000\015\000\
 \\066\000\036\000\060\000\012\000\
 \\004\000\016\000\067\000\005\000"
 val gotoT =
@@ -483,47 +483,7 @@ end
 end)
  in ( LrTable.NT 0, ( result, ID1left, ID1right), rest671)
 end
-|  ( 16, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
-MlyValue.exp_ exp_1, exp_1left, _)) :: rest671)) => let val  result = 
-MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
- val  exp_2 = exp_2 ()
- in (Ast.OpExp(exp_1, Ast.Plus, exp_2))
-end)
- in ( LrTable.NT 0, ( result, exp_1left, exp_2right), rest671)
-end
-|  ( 17, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
-MlyValue.exp_ exp_1, exp_1left, _)) :: rest671)) => let val  result = 
-MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
- val  exp_2 = exp_2 ()
- in (Ast.OpExp(exp_1, Ast.Times, exp_2))
-end)
- in ( LrTable.NT 0, ( result, exp_1left, exp_2right), rest671)
-end
-|  ( 18, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
-MlyValue.exp_ exp_1, exp_1left, _)) :: rest671)) => let val  result = 
-MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
- val  exp_2 = exp_2 ()
- in (Ast.OpExp(exp_1, Ast.Divide, exp_2))
-end)
- in ( LrTable.NT 0, ( result, exp_1left, exp_2right), rest671)
-end
-|  ( 19, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
-MlyValue.exp_ exp_1, exp_1left, _)) :: rest671)) => let val  result = 
-MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
- val  exp_2 = exp_2 ()
- in (Ast.OpExp(exp_1, Ast.Minus, exp_2))
-end)
- in ( LrTable.NT 0, ( result, exp_1left, exp_2right), rest671)
-end
-|  ( 20, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
-MlyValue.exp_ exp_1, exp_1left, _)) :: rest671)) => let val  result = 
-MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
- val  exp_2 = exp_2 ()
- in (Ast.OpExp(exp_1, Ast.Carat, exp_2))
-end)
- in ( LrTable.NT 0, ( result, exp_1left, exp_2right), rest671)
-end
-|  ( 21, ( ( _, ( _, _, RPAREN1right)) :: ( _, ( 
+|  ( 16, ( ( _, ( _, _, RPAREN1right)) :: ( _, ( 
 MlyValue.functionCallParams_ functionCallParams_1, _, _)) :: _ :: ( _,
  ( MlyValue.ID ID1, ID1left, _)) :: rest671)) => let val  result = 
 MlyValue.exp_ (fn _ => let val  (ID as ID1) = ID1 ()
@@ -532,6 +492,46 @@ functionCallParams_1 ()
  in (Ast.CallExp(ID, functionCallParams_))
 end)
  in ( LrTable.NT 0, ( result, ID1left, RPAREN1right), rest671)
+end
+|  ( 17, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
+MlyValue.exp_ exp_1, exp_1left, _)) :: rest671)) => let val  result = 
+MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
+ val  exp_2 = exp_2 ()
+ in (Ast.OpExp(exp_1, Ast.Plus, exp_2))
+end)
+ in ( LrTable.NT 0, ( result, exp_1left, exp_2right), rest671)
+end
+|  ( 18, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
+MlyValue.exp_ exp_1, exp_1left, _)) :: rest671)) => let val  result = 
+MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
+ val  exp_2 = exp_2 ()
+ in (Ast.OpExp(exp_1, Ast.Times, exp_2))
+end)
+ in ( LrTable.NT 0, ( result, exp_1left, exp_2right), rest671)
+end
+|  ( 19, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
+MlyValue.exp_ exp_1, exp_1left, _)) :: rest671)) => let val  result = 
+MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
+ val  exp_2 = exp_2 ()
+ in (Ast.OpExp(exp_1, Ast.Divide, exp_2))
+end)
+ in ( LrTable.NT 0, ( result, exp_1left, exp_2right), rest671)
+end
+|  ( 20, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
+MlyValue.exp_ exp_1, exp_1left, _)) :: rest671)) => let val  result = 
+MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
+ val  exp_2 = exp_2 ()
+ in (Ast.OpExp(exp_1, Ast.Minus, exp_2))
+end)
+ in ( LrTable.NT 0, ( result, exp_1left, exp_2right), rest671)
+end
+|  ( 21, ( ( _, ( MlyValue.exp_ exp_2, _, exp_2right)) :: _ :: ( _, ( 
+MlyValue.exp_ exp_1, exp_1left, _)) :: rest671)) => let val  result = 
+MlyValue.exp_ (fn _ => let val  exp_1 = exp_1 ()
+ val  exp_2 = exp_2 ()
+ in (Ast.OpExp(exp_1, Ast.Carat, exp_2))
+end)
+ in ( LrTable.NT 0, ( result, exp_1left, exp_2right), rest671)
 end
 |  ( 22, ( ( _, ( MlyValue.body_ body_1, _, body_1right)) :: ( _, ( 
 MlyValue.stm_ stm_1, stm_1left, _)) :: rest671)) => let val  result = 
