@@ -68,6 +68,8 @@ structure Ast = StarAst
   program_ : END (Ast.END) 
     | function_ program_ (Ast.ProgPart(function_, program_))
 
+  functionCallParams_ : ([]) | exp_ ([exp_]) | exp_ COMMA functionCallParams_ (exp_::functionCallParams_)
+
   exp_ : NUM              (Ast.IntExp(NUM))
         | STRING            (Ast.StringExp(STRING))
         | ID               (Ast.IdExp(ID))
@@ -76,6 +78,7 @@ structure Ast = StarAst
         | exp_ DIV exp_     (Ast.OpExp(exp_1, Ast.Divide, exp_2))
         | exp_ SUB exp_     (Ast.OpExp(exp_1, Ast.Minus, exp_2))
         | exp_ CARAT exp_   (Ast.OpExp(exp_1, Ast.Carat, exp_2))
+        | ID LPAREN functionCallParams_ RPAREN  (Ast.CallExp(ID, functionCallParams_))
 
   body_ : stm_ body_        (Ast.StmtList(stm_, body_))
         | stm_              (Ast.StmtLast(stm_))
@@ -97,10 +100,6 @@ structure Ast = StarAst
   params_ : ([]) | ID ([ID]) | ID COMMA params_ (ID::params_)
 
   function_ : FUNCTION ID LPAREN params_ RPAREN LBRACE body_ RBRACE (Ast.Function(ID, params_, body_))
-
-  functionCallParams_ : ([]) | exp_ ([exp_]) | exp_ COMMA functionCallParams_ (exp_::functionCallParams_)
-
-  functionCall_ : ID LPAREN functionCallParams_ RPAREN  (Ast.CallExp(ID, functionCallParams_))
 
   if_ : IF LPAREN bool_ RPAREN LBRACE body_ RBRACE  (Ast.IfStmt(bool_, body_))
       | IF LPAREN bool_ RPAREN LBRACE body_ RBRACE ELSE LBRACE body_ RBRACE (Ast.IfElseStmt(bool_, body_, body_))

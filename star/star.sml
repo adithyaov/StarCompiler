@@ -53,10 +53,14 @@ struct
        in loop lexer
       end*)
 
-  fun parse () = 
+  fun parse (fileName) = 
       let 
-      val lexer = StarParser.makeLexer (fn _ => (getProper "" (TextIO.inputLine TextIO.stdIn)))
-	  val (result,lexer) = invoke lexer
+	      val inStream = TextIO.openIn fileName;
+	      val words = String.tokens Char.isSpace o TextIO.inputAll
+	      val merge = foldr (fn (x, y) => x ^ " " ^ y) ""
+	      val lexer = StarParser.makeLexer (fn _ => merge (words inStream))
+		  val (result,lexer) = invoke lexer
+		  val _ = TextIO.closeIn inStream;
 	  in 
 	  	result
 	  end
