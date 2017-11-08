@@ -6,7 +6,7 @@ function main()
 	return
 	var jude = jdue * kill
 	var k = side(a, b, 22, "Jude")
-	while (7 < 0 & 8 > 5 | 8) {
+	while (7 < 0 & 8 > 5) {
 		var x = x + 1
 		if (8 > 0){
 	    continue
@@ -19,6 +19,8 @@ function main()
 	}
 
 }
+
+var x = 56
 
 function side(a){
 	var j = main()
