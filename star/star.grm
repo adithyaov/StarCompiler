@@ -91,7 +91,8 @@ structure Ast = StarAst
 
   logic_ : AND (Ast.AND) | OR (Ast.OR)
 
-  bool_ : exp_ comparison_ exp_                                                 (Ast.BoolExp2(exp_1, comparison_, exp_2))
+  bool_ : LPAREN bool_ RPAREN                                                    (bool_)
+        | exp_ comparison_ exp_                                                 (Ast.BoolExp2(exp_1, comparison_, exp_2))
         | bool_ logic_ bool_                                                    (Ast.BoolExp3(bool_1, logic_, bool_2))
 
 

@@ -65,9 +65,67 @@ struct
         result
       end
 
+  structure Ast = StarAst;
 
- (* fun convertToJavascript ast =
-    
-*)
+
+  fun convertArOp Ast.Plus = "+"
+    | convertArOp Ast.Minus = "-"
+    | convertArOp Ast.Times = "*"
+    | convertArOp Ast.Divide = "/"
+    | convertArOp Ast.Carat = "^"
+
+  fun convertRelOp Ast.EqOp = "=="
+    | convertRelOp Ast.NeqOp = "!="
+    | convertRelOp Ast.LtOp = "<"
+    | convertRelOp Ast.LeOp = "<="
+    | convertRelOp Ast.GtOp = ">"
+    | convertRelOp Ast.GeOp = ">="
+
+  fun convertLoOp Ast.AND = "&&"
+    | convertLoOp Ast.OR = "||"
+
+  fun expJS (Ast.IdExp e) = e
+    | expJS (Ast.StringExp e) = e
+    | expJS (Ast.IntExp e) = (Int.toString e)
+    | expJS (Ast.CallExp (a, b)) = (expJS_callExp a b)
+    | expJS (Ast.OpExp (a, b, c)) = ("(" ^ (expJS a) ^ ")" ^ (convertArOp b) ^ "(" ^ (expJS c) ^ ")")
+  and expJS_callExp a b = a ^ "(" ^ (breakList b) ^ ")"
+  and breakList [] = ""
+    | breakList [b] = expJS b
+    | breakList (b::bs) = (expJS b) ^ ", " ^ (breakList bs)
+
+  fun boolJS (Ast.BoolExp2 (a, b, c)) = (expJS a) ^ (convertRelOp b) ^ (expJS c)
+    | boolJS (Ast.BoolExp3 (a, b, c)) = "(" ^ (boolJS a) ^ ")" ^ (convertLoOp b) ^ "(" ^ (boolJS c) ^ ")"
+
+  fun stmtJS (Ast.AssStmt (a, b)) = "var " ^ a ^ "=" ^ (expJS b) ^ ";"
+    | stmtJS (Ast.MutateStmt (a, b)) = a ^ "=" ^ (expJS b) ^ ";"
+    | stmtJS (Ast.PrintStmt (a)) = "console.log(" ^ (expJS a) ^ ");"
+    | stmtJS Ast.BREAK = "break;"
+    | stmtJS Ast.CONTINUE = "continue;"
+    | stmtJS Ast.RETURN = "return;"
+    | stmtJS (Ast.IfStmt (a, b)) = "if(" ^ (boolJS a) ^ "){" ^ (stmtJS_body b) ^ "};"
+    | stmtJS (Ast.IfElseStmt (a, b, c)) = "if(" ^ (boolJS a) ^ "){" ^ (stmtJS_body b) ^ "}else{" ^ (stmtJS_body b) ^ "};"
+    | stmtJS (Ast.WhileStmt (a, b)) = "while(" ^ (boolJS a) ^ "){" ^ (stmtJS_body b) ^ "};"
+  and stmtJS_body (Ast.StmtList (a, b)) = (stmtJS a) ^ (stmtJS_body b)
+    | stmtJS_body (Ast.StmtLast (a)) = (stmtJS a)
+
+  fun blFun [] = ""
+    | blFun [b] = b
+    | blFun (b::bs) = b ^ ", " ^ (blFun bs)
+  fun funJS (Ast.Function (a, b, c)) = "function " ^ a ^ "(" ^ (blFun b) ^ "){" ^ (stmtJS_body c) ^ "}"
+
+  fun progJS (Ast.ProgPart1 (a, b)) = (funJS a) ^ (progJS b)
+    | progJS (Ast.ProgPart2 (a, b)) = (stmtJS a) ^ (progJS b)
+    | progJS (Ast.END) = ""
+
+  fun startJS (Ast.Prog (a)) = progJS a
+
+  fun makeJS (outFile, ast) =
+    let
+      val outStream = TextIO.openOut outFile
+      val _ = TextIO.output(outStream, startJS ast)
+    in
+      TextIO.closeOut outStream
+    end;
 
 end

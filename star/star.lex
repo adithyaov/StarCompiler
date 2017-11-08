@@ -27,15 +27,15 @@ ws = [\ \t];
 "^"      => (Tokens.CARAT(!pos,!pos));
 "/"      => (Tokens.DIV(!pos,!pos));
 
-"&" => (Tokens.AND(!pos,!pos));
-"|" => (Tokens.OR(!pos,!pos));
+"&&" => (Tokens.AND(!pos,!pos));
+"||" => (Tokens.OR(!pos,!pos));
 "==" => (Tokens.EQ(!pos,!pos));
 "=" => (Tokens.ASSIGN(!pos,!pos));
 ">=" => (Tokens.GE(!pos,!pos));
 ">" => (Tokens.GT(!pos,!pos));
 "<=" => (Tokens.LE(!pos,!pos));
 "<" => (Tokens.LT(!pos,!pos));
-"<>" => (Tokens.NEQ(!pos,!pos));
+"!=" => (Tokens.NEQ(!pos,!pos));
 "{" => (Tokens.LBRACE(!pos,!pos));
 "}" => (Tokens.RBRACE(!pos,!pos));
 "(" => (Tokens.LPAREN(!pos,!pos));
