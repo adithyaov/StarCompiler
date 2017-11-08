@@ -1,6 +1,8 @@
 function main()
 {
 	var x = x + 1 * hut + nine ^ hut / 10 - 1
+	document.getElementById = 99
+	x = 7
 	var name = "Adithya OV"
 	break
 	return

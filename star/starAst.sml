@@ -7,6 +7,7 @@ struct
 	datatype Start_ = Prog of Prog_
 
 	and Stmt_ = AssStmt of Id_ * Exp_
+				| MutateStmt of Id_ * Exp_
 				| IfStmt of Bool_ * Body_
 				| IfElseStmt of Bool_ * Body_ * Body_
 				| WhileStmt of Bool_ * Body_

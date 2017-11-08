@@ -13,7 +13,7 @@ fun error (e,l : int,_) = TextIO.output (TextIO.stdOut, String.concat[
 
 %%
 %header (functor StarLexFun(structure Tokens: Star_TOKENS));
-alpha=[A-Za-z];
+alpha=[A-Za-z\.];
 all=[A-Za-z0-9\ ];
 digit=[0-9];
 ws = [\ \t];

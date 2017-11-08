@@ -62,6 +62,7 @@ structure Ast = StarAst
            | END                                                                (Ast.END)
   
   stm_ : VAR ID ASSIGN exp_                                                     (Ast.AssStmt(ID, exp_))
+       | ID ASSIGN exp_                                                         (Ast.MutateStmt(ID, exp_))
        | IF LPAREN bool_ RPAREN LBRACE body_ RBRACE                             (Ast.IfStmt(bool_, body_))
        | IF LPAREN bool_ RPAREN LBRACE body_ RBRACE ELSE LBRACE body_ RBRACE    (Ast.IfElseStmt(bool_, body_, body_))
        | WHILE LPAREN bool_ RPAREN LBRACE body_ RBRACE                          (Ast.WhileStmt(bool_, body_))
