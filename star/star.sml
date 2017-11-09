@@ -67,6 +67,11 @@ struct
 
   structure Ast = StarAst;
 
+  val defList = ref ([]:(string list))
+  val defErrors = ref ([]:((string * bool) list))
+  val typeErrors = ref ([]:((string * int) list))
+  val intTypeList = ref ([]:(string list))
+  val stringTypeList = ref ([]:(string list))
 
   fun convertArOp Ast.Plus = "+"
     | convertArOp Ast.Minus = "-"
@@ -84,7 +89,23 @@ struct
   fun convertLoOp Ast.AND = "&&"
     | convertLoOp Ast.OR = "||"
 
-  fun expJS (Ast.IdExp e) = e
+  fun isIn [] _ = false
+    | isIn (x::xs) y = if (x = y) then true else isIn xs y
+
+
+  fun reduceType [] sum prod = if sum = 0 andalso prod = 0 then 0 else if sum > 0 andalso prod > 0 then 1 else ~1
+    | reduceType (~1::xs) _ _ = ~1
+    | reduceType (x::xs) sum prod = reduceType xs (sum + x) (prod * x)
+
+  fun expJS_check listTypes (Ast.IdExp e) = if (isIn (!intTypeList) e) then (1::listTypes) else if (isIn (!stringTypeList) e) then (0::listTypes) else (~1::listTypes)
+    | expJS_check listTypes (Ast.IntExp e) = 1::listTypes
+    | expJS_check listTypes (Ast.StringExp e) = 0::listTypes
+    | expJS_check listTypes (Ast.OpExp (a, b, c)) = (reduceType (expJS_check [] c) 0 1)::((reduceType (expJS_check [] a) 0 1)::listTypes)
+    | expJS_check listTypes _ = listTypes
+
+  fun expJS (Ast.IdExp e) = 
+        let val _ = (defErrors := (e, isIn (!defList) e)::(!defErrors))
+        in e end
     | expJS (Ast.StringExp e) = e
     | expJS (Ast.IntExp e) = (Int.toString e)
     | expJS (Ast.CallExp (a, b)) = (expJS_callExp a b)
@@ -97,8 +118,18 @@ struct
   fun boolJS (Ast.BoolExp2 (a, b, c)) = (expJS a) ^ (convertRelOp b) ^ (expJS c)
     | boolJS (Ast.BoolExp3 (a, b, c)) = "(" ^ (boolJS a) ^ ")" ^ (convertLoOp b) ^ "(" ^ (boolJS c) ^ ")"
 
-  fun stmtJS (Ast.AssStmt (a, b)) = "var " ^ a ^ "=" ^ (expJS b) ^ ";"
-    | stmtJS (Ast.MutateStmt (a, b)) = a ^ "=" ^ (expJS b) ^ ";"
+  fun stmtJS (Ast.AssStmt (a, b)) = 
+        let 
+          val _ = (defList := a::(!defList))
+          val rtc = reduceType (expJS_check [] b) 0 1
+          val _ = if (rtc = ~1) then (typeErrors := (a, ~1)::(!typeErrors)) else (typeErrors := (a, rtc)::(!typeErrors))
+        in a ^ "=" ^ (expJS b) ^ ";" end
+    | stmtJS (Ast.MutateStmt (a, b)) = 
+        let 
+          val _ = (defList := a::(!defList))
+          val rtc = reduceType (expJS_check [] b) 0 1
+          val _ = if (rtc = ~1) then (typeErrors := (a, ~1)::(!typeErrors)) else (typeErrors := (a, rtc)::(!typeErrors))
+        in a ^ "=" ^ (expJS b) ^ ";" end
     | stmtJS (Ast.PrintStmt (a)) = "console.log(" ^ (expJS a) ^ ");"
     | stmtJS Ast.BREAK = "break;"
     | stmtJS Ast.CONTINUE = "continue;"
