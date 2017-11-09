@@ -7,9 +7,7 @@ type lexresult= (svalue,pos) token
 
 val pos = ref 0
 fun eof () = Tokens.EOF(!pos,!pos)
-fun error (e,l : int,_) = TextIO.output (TextIO.stdOut, String.concat[
-	"line ", (Int.toString l), ": ", e, "\n"
-      ])
+fun error (e,lNum, lPos) = TextIO.output (TextIO.stdOut, String.concat["lex-error: lineNum: ", (Int.toString lNum), ",linePos: ", (Int.toString lPos), ",error: ", e, "\n"])
 
 %%
 %header (functor StarLexFun(structure Tokens: Star_TOKENS));
@@ -56,7 +54,5 @@ ws = [\ \t];
 \"{all}+\" => (Tokens.STRING(yytext,!pos,!pos));
 {digit}+ => (Tokens.NUM (valOf (Int.fromString yytext), !pos, !pos));
 {alpha}+ => (Tokens.ID(yytext,!pos,!pos));
-
-
-"."      => (error ("ignoring bad character "^yytext,!pos,!pos);
-lex());
+.      => (error ("ignoring bad character "^yytext,!pos,!pos); 
+           Tokens.BOGUS(!pos,!pos));

@@ -31,7 +31,7 @@ val table=let val actionRows =
 \\012\000\043\000\025\000\063\000\000\000\
 \\001\000\006\000\014\000\026\000\013\000\027\000\012\000\028\000\011\000\
 \\029\000\010\000\030\000\009\000\032\000\008\000\033\000\007\000\
-\\034\000\006\000\000\000\
+\\035\000\006\000\000\000\
 \\001\000\006\000\014\000\026\000\013\000\028\000\011\000\029\000\010\000\
 \\030\000\009\000\032\000\008\000\033\000\007\000\000\000\
 \\001\000\008\000\000\000\009\000\000\000\000\000\
@@ -297,7 +297,7 @@ fun x $$ y = y::x
 val is_keyword =
 fn (T 29) => true | (T 27) => true | (T 28) => true | (T 32) => true
  | (T 26) => true | (T 25) => true | (T 31) => true | (T 30) => true
- | (T 5) => true | (T 7) => true | (T 33) => true | _ => false
+ | (T 5) => true | (T 7) => true | (T 34) => true | _ => false
 val preferred_change : (term list * term list) list = 
 (nil
 ,nil
@@ -351,18 +351,19 @@ fn (T 0) => "ID"
   | (T 30) => "ELSE"
   | (T 31) => "IF"
   | (T 32) => "RETURN"
-  | (T 33) => "END"
+  | (T 33) => "BOGUS"
+  | (T 34) => "END"
   | _ => "bogus-term"
 local open Header in
 val errtermvalue=
 fn _ => MlyValue.VOID
 end
 val terms : term list = nil
- $$ (T 33) $$ (T 32) $$ (T 31) $$ (T 30) $$ (T 29) $$ (T 28) $$ (T 27)
- $$ (T 26) $$ (T 25) $$ (T 24) $$ (T 23) $$ (T 22) $$ (T 21) $$ (T 20)
- $$ (T 19) $$ (T 18) $$ (T 17) $$ (T 16) $$ (T 15) $$ (T 14) $$ (T 13)
- $$ (T 12) $$ (T 11) $$ (T 10) $$ (T 9) $$ (T 8) $$ (T 7) $$ (T 6) $$ 
-(T 5) $$ (T 4) $$ (T 3)end
+ $$ (T 34) $$ (T 33) $$ (T 32) $$ (T 31) $$ (T 30) $$ (T 29) $$ (T 28)
+ $$ (T 27) $$ (T 26) $$ (T 25) $$ (T 24) $$ (T 23) $$ (T 22) $$ (T 21)
+ $$ (T 20) $$ (T 19) $$ (T 18) $$ (T 17) $$ (T 16) $$ (T 15) $$ (T 14)
+ $$ (T 13) $$ (T 12) $$ (T 11) $$ (T 10) $$ (T 9) $$ (T 8) $$ (T 7)
+ $$ (T 6) $$ (T 5) $$ (T 4) $$ (T 3)end
 structure Actions =
 struct 
 exception mlyAction of int
@@ -371,10 +372,11 @@ val actions =
 fn (i392,defaultPos,stack,
     (()):arg) =>
 case (i392,stack)
-of  ( 0, ( ( _, ( MlyValue.program_ program_1, program_1left, 
-program_1right)) :: rest671)) => let val  result = MlyValue.start (fn
- _ => let val  (program_ as program_1) = program_1 ()
- in (SOME (Ast.Prog(program_)))
+of  ( 0, ( ( _, ( MlyValue.program_ program_1, (program_left as 
+program_1left), (program_right as program_1right))) :: rest671)) =>
+ let val  result = MlyValue.start (fn _ => let val  (program_ as 
+program_1) = program_1 ()
+ in (SOME (Ast.Prog(program_, program_left, program_right)))
 end)
  in ( LrTable.NT 1, ( result, program_1left, program_1right), rest671)
 
@@ -738,7 +740,9 @@ fun IF (p1,p2) = Token.TOKEN (ParserData.LrTable.T 31,(
 ParserData.MlyValue.VOID,p1,p2))
 fun RETURN (p1,p2) = Token.TOKEN (ParserData.LrTable.T 32,(
 ParserData.MlyValue.VOID,p1,p2))
-fun END (p1,p2) = Token.TOKEN (ParserData.LrTable.T 33,(
+fun BOGUS (p1,p2) = Token.TOKEN (ParserData.LrTable.T 33,(
+ParserData.MlyValue.VOID,p1,p2))
+fun END (p1,p2) = Token.TOKEN (ParserData.LrTable.T 34,(
 ParserData.MlyValue.VOID,p1,p2))
 end
 end

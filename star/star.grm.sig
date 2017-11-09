@@ -3,6 +3,7 @@ sig
 type ('a,'b) token
 type svalue
 val END:  'a * 'a -> (svalue,'a) token
+val BOGUS:  'a * 'a -> (svalue,'a) token
 val RETURN:  'a * 'a -> (svalue,'a) token
 val IF:  'a * 'a -> (svalue,'a) token
 val ELSE:  'a * 'a -> (svalue,'a) token

@@ -24,7 +24,7 @@ structure Ast = StarAst
       | GE | GT | LE | LT | NEQ
       | LBRACE | RBRACE | LPAREN | RPAREN
       | VAR | FUNCTION | BREAK | CONTINUE
-      | WHILE | ELSE | IF | RETURN
+      | WHILE | ELSE | IF | RETURN | BOGUS
       | END
 
 %nonterm exp_ of Ast.Exp_
@@ -55,7 +55,7 @@ structure Ast = StarAst
 
 (* the parser returns the value associated with the exp_ression *)
 
-  start : program_ (SOME (Ast.Prog(program_)))
+  start : program_ (SOME (Ast.Prog(program_, program_left, program_right)))
   
   program_ : function_ program_                                                 (Ast.ProgPart1(function_, program_))
            | stm_ program_                                                      (Ast.ProgPart2(stm_, program_))

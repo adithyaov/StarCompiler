@@ -1,10 +1,12 @@
 structure StarAst =
 struct
+    type LPos_ = int
+    type LNum_ = int
 	type Id_ = string
 	type Int_ = int
 	type String_ = string
 
-	datatype Start_ = Prog of Prog_
+	datatype Start_ = Prog of Prog_ * LNum_ * LPos_
 
 	and Stmt_ = AssStmt of Id_ * Exp_
 				| IfStmt of Bool_ * Body_
