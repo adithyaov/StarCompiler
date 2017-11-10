@@ -57,6 +57,12 @@ struct
   val intTypeList = ref ([]:(string list))
   val stringTypeList = ref ([]:(string list))
 
+  fun isolate [] = []
+      | isolate (x::xs) = x::isolate(List.filter (fn y => y <> x) xs) 
+
+  fun showLog () =
+    {defList=(isolate (!defList)), defErrors=(isolate (!defErrors)), typeErrors=(isolate (!typeErrors)), intTypeList=(isolate (!intTypeList)), stringTypeList=(isolate (!stringTypeList))}
+
   val prefix = ref "_jude_"
 
   structure Ast = StarAst;
@@ -64,7 +70,7 @@ struct
   fun isIn [] _ = false
     | isIn (x::xs) y = if (x = y) then true else isIn xs y
 
-  fun reduceType [] sum prod = if sum = 0 andalso prod = 0 then 0 else if sum > 0 andalso prod > 0 then 1 else ~1
+  fun reduceType [] sum prod = if sum = 0 andalso prod = 1 then 2 else if sum = 0 andalso prod = 0 then 0 else if sum > 0 andalso prod > 0 then 1 else ~1
     | reduceType (~1::xs) _ _ = ~1
     | reduceType (x::xs) sum prod = reduceType xs (sum + x) (prod * x)
 
@@ -134,8 +140,10 @@ struct
     | stmtJS_body (Ast.StmtLast (a, _, _)) = (stmtJS a)
 
   fun blFun [] = ""
-    | blFun [b] = b
-    | blFun (b::bs) = b ^ ", " ^ (blFun bs)
+    | blFun [b] = (!prefix) ^ b
+    | blFun (b::bs) = 
+      let val prefixed = (!prefix) ^ b
+      in prefixed ^ ", " ^ (blFun bs) end
   fun funJS (Ast.Function (a, b, c, _, _)) = "function " ^ a ^ "(" ^ (blFun b) ^ "){" ^ (stmtJS_body c) ^ "}"
 
   fun progJS (Ast.ProgPart1 (a, b, _, _)) = (funJS a) ^ (progJS b)
