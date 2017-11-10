@@ -15,7 +15,22 @@ The repository as of now (Nov 10 2017) has two branches
 * All the branches are independent and can be used as is.
 * The following libraries are used in make file:
   basis.cm, ml-yacc-lib.cm
-* After running "sources.cm", type "Star.parse("filename");" to compile the file corresponding to the filename.
+* Star is the main stricture where all the functions are.
+* Star.makeJS (filename: string, ast: StarAst.Prog\_) basically makes the JS file.
+* Star.parse (inputFile: string) basically parses the input file and generates an (SOME ast).
+* Star.showLog() shows the log after parsing.
+* Star.startJS (ast: StarAst.Prog\_) can be used to view the result in the interpreter.
+* Star.prefix is a mutable var to change the prefix of the code generated.
+
+### Example ###
+
+- val x = Star.parse("infile.star");
+- val y = valOf x;
+- val Star.startJS y; (\* Shows the result in the console \*)
+- val Star.makeJS ("out.js", y); (\* Outputs a js file \*)
+- Star.showLog(); (\* Shows the log, ie. Errors, Def, Types etc. \*)
+- Star.prefix := "the\_prefix\_"; (\* Changes the prefix. \*)
+
 
 ### common files ###
 * star.lex contains the ml-lex specification file for Star language
