@@ -3,10 +3,10 @@
 # Content.
 
 The repository as of now (Nov 10 2017) has four branches:
-master : contains the full project upto lexing without bad character recovery, parsing into an AST without the token positions being recorded, no JS code support
-alterstar: Initial branch now redundant (facing imminent removal).
-step check: Tesing out printing of AST and correcting parse error line number bug
-type chk and var def: Testing out type checking and variable definition
+* master : contains the full project upto lexing without bad character recovery, parsing into an AST without the token positions being recorded, no JS code support
+* alterstar: Initial branch now redundant (facing imminent removal).
+* step check: Tesing out printing of AST and correcting parse error line number bug
+* type chk and var def: Testing out type checking and variable definition
 
 
 ### How do I get set up? ###
