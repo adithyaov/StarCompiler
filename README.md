@@ -1,6 +1,8 @@
 # README #
 
-# Content.
+# A Compiler for Star that compiles to javascript.
+
+### Content.
 
 The repository as of now (Nov 10 2017) has four branches
 * master : contains the full project upto lexing without bad character recovery, parsing into an AST without the token positions being recorded, no JS code support
