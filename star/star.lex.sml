@@ -175,90 +175,90 @@ Vector.fromList []
 	    in 
 let
 fun yyAction0 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (pos := (!pos) + 1; lex()))
+      (linenum := (!linenum) + 1; linepos := yypos; lex()))
 fun yyAction1 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.PLUS(!pos,!pos)))
+      (Tokens.PLUS(!linenum, yypos - !linepos)))
 fun yyAction2 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.TIMES(!pos,!pos)))
+      (Tokens.TIMES(!linenum, yypos - !linepos)))
 fun yyAction3 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.SEMI(!pos,!pos)))
+      (Tokens.SEMI(!linenum, yypos - !linepos)))
 fun yyAction4 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.COMMA(!pos,!pos)))
+      (Tokens.COMMA(!linenum, yypos - !linepos)))
 fun yyAction5 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.SUB(!pos,!pos)))
+      (Tokens.SUB(!linenum, yypos - !linepos)))
 fun yyAction6 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.CARAT(!pos,!pos)))
+      (Tokens.CARAT(!linenum, yypos - !linepos)))
 fun yyAction7 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.DIV(!pos,!pos)))
+      (Tokens.DIV(!linenum, yypos - !linepos)))
 fun yyAction8 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.AND(!pos,!pos)))
+      (Tokens.AND(!linenum,yypos - !linepos)))
 fun yyAction9 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.OR(!pos,!pos)))
+      (Tokens.OR(!linenum, yypos - !linepos)))
 fun yyAction10 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.EQ(!pos,!pos)))
+      (Tokens.EQ(!linenum, yypos - !linepos)))
 fun yyAction11 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.ASSIGN(!pos,!pos)))
+      (Tokens.ASSIGN(!linenum, yypos - !linepos)))
 fun yyAction12 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.GE(!pos,!pos)))
+      (Tokens.GE(!linenum, yypos - !linepos)))
 fun yyAction13 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.GT(!pos,!pos)))
+      (Tokens.GT(!linenum, yypos - !linepos)))
 fun yyAction14 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.LE(!pos,!pos)))
+      (Tokens.LE(!linenum, yypos - !linepos)))
 fun yyAction15 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.LT(!pos,!pos)))
+      (Tokens.LT(!linenum, yypos - !linepos)))
 fun yyAction16 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.NEQ(!pos,!pos)))
+      (Tokens.NEQ(!linenum, yypos - !linepos)))
 fun yyAction17 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.LBRACE(!pos,!pos)))
+      (Tokens.LBRACE(!linenum, yypos - !linepos)))
 fun yyAction18 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.RBRACE(!pos,!pos)))
+      (Tokens.RBRACE(!linenum, yypos - !linepos)))
 fun yyAction19 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.LPAREN(!pos,!pos)))
+      (Tokens.LPAREN(!linenum, yypos - !linepos)))
 fun yyAction20 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.RPAREN(!pos,!pos)))
+      (Tokens.RPAREN(!linenum, yypos - !linepos)))
 fun yyAction21 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.PRINT(!pos,!pos)))
+      (Tokens.PRINT(!linenum, yypos - !linepos)))
 fun yyAction22 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.VAR(!pos,!pos)))
+      (Tokens.VAR(!linenum, yypos - !linepos)))
 fun yyAction23 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.FUNCTION(!pos,!pos)))
+      (Tokens.FUNCTION(!linenum, yypos - !linepos)))
 fun yyAction24 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.BREAK(!pos,!pos)))
+      (Tokens.BREAK(!linenum, yypos - !linepos)))
 fun yyAction25 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.CONTINUE(!pos,!pos)))
+      (Tokens.CONTINUE(!linenum, yypos - !linepos)))
 fun yyAction26 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.WHILE(!pos,!pos)))
+      (Tokens.WHILE(!linenum, yypos - !linepos)))
 fun yyAction27 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.ELSE(!pos,!pos)))
+      (Tokens.ELSE(!linenum, yypos - !linepos)))
 fun yyAction28 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.IF(!pos,!pos)))
+      (Tokens.IF(!linenum, yypos - !linepos)))
 fun yyAction29 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.RETURN(!pos,!pos)))
+      (Tokens.RETURN(!linenum, yypos - !linepos)))
 fun yyAction30 (strm, lastMatch : yymatch) = (yystrm := strm;
-      (Tokens.END(!pos,!pos)))
+      (Tokens.END(!linenum, yypos - !linepos)))
 fun yyAction31 (strm, lastMatch : yymatch) = (yystrm := strm; (lex()))
 fun yyAction32 (strm, lastMatch : yymatch) = let
       val yytext = yymktext(strm)
       in
-        yystrm := strm; (Tokens.STRING(yytext,!pos,!pos))
+        yystrm := strm; (Tokens.STRING(yytext,!linenum, yypos - !linepos))
       end
 fun yyAction33 (strm, lastMatch : yymatch) = let
       val yytext = yymktext(strm)
       in
         yystrm := strm;
-        (Tokens.NUM (valOf (Int.fromString yytext), !pos, !pos))
+        (Tokens.NUM (valOf (Int.fromString yytext), !linenum, yypos - !linepos))
       end
 fun yyAction34 (strm, lastMatch : yymatch) = let
       val yytext = yymktext(strm)
       in
-        yystrm := strm; (Tokens.ID(yytext,!pos,!pos))
+        yystrm := strm; (Tokens.ID(yytext,!linenum, yypos - !linepos))
       end
 fun yyAction35 (strm, lastMatch : yymatch) = let
       val yytext = yymktext(strm)
       in
         yystrm := strm;
-        (error ("ignoring bad character "^yytext,!pos,!pos); 
-           Tokens.BOGUS(!pos,!pos))
+        (error ("ignoring bad character "^yytext, !linenum, yypos - !linepos); 
+           Tokens.BOGUS(!linenum, yypos - !linepos))
       end
 fun yyQ31 (strm, lastMatch : yymatch) = (case (yygetc(strm))
        of NONE => yyAction18(strm, yyNO_MATCH)
