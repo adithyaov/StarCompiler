@@ -36,23 +36,8 @@ struct
        	  StarParser.parse(0,lexstream,print_error,())
       end
 
- fun getProper ifNone NONE = ifNone
+  fun getProper ifNone NONE = ifNone
     | getProper ifNone rest = valOf(rest);
-
-(*  fun parse () = 
-      let 
-      val lexer = StarParser.makeLexer (fn _ => (getProper "" (TextIO.inputLine TextIO.stdIn)))
-      val dummyEOF = StarLrVals.Tokens.EOF(0,0)
-      fun loop lexer =
-          let val (result,lexer) = invoke lexer
-          val (nextToken,lexer) = StarParser.Stream.get lexer
-          val _ = case result
-                of SOME r => r
-           in if StarParser.sameToken(nextToken,dummyEOF) then ()
-          else loop lexer
-          end
-       in loop lexer
-      end*)
 
   fun parse (fileName) = 
       let 
@@ -66,7 +51,28 @@ struct
         result
       end
 
+  val defList = ref ([]:(string list))
+  val defErrors = ref ([]:((string * bool) list))
+  val typeErrors = ref ([]:((string * int) list))
+  val intTypeList = ref ([]:(string list))
+  val stringTypeList = ref ([]:(string list))
+
+  val prefix = ref "_jude_"
+
   structure Ast = StarAst;
+
+  fun isIn [] _ = false
+    | isIn (x::xs) y = if (x = y) then true else isIn xs y
+
+  fun reduceType [] sum prod = if sum = 0 andalso prod = 0 then 0 else if sum > 0 andalso prod > 0 then 1 else ~1
+    | reduceType (~1::xs) _ _ = ~1
+    | reduceType (x::xs) sum prod = reduceType xs (sum + x) (prod * x)
+
+  fun expJS_check listTypes (Ast.IdExp (e, _, _)) = if (isIn (!intTypeList) e) then (1::listTypes) else if (isIn (!stringTypeList) e) then (0::listTypes) else (~1::listTypes)
+    | expJS_check listTypes (Ast.IntExp (e, _, _)) = 1::listTypes
+    | expJS_check listTypes (Ast.StringExp (e, _, _)) = 0::listTypes
+    | expJS_check listTypes (Ast.OpExp (a, b, c, _, _)) = (reduceType (expJS_check [] c) 0 1)::((reduceType (expJS_check [] a) 0 1)::listTypes)
+    | expJS_check listTypes _ = listTypes
 
 
   fun convertArOp (Ast.Plus _) = "+"
@@ -85,7 +91,11 @@ struct
   fun convertLoOp (Ast.AND _) = "&&"
     | convertLoOp (Ast.OR _) = "||"
 
-  fun expJS (Ast.IdExp (e, _, _)) = e
+  fun expJS (Ast.IdExp (e, _, _)) =
+        let 
+          val prefixed = (!prefix) ^ e
+          val _ = (defErrors := (prefixed, isIn (!defList) prefixed)::(!defErrors))
+        in prefixed end
     | expJS (Ast.StringExp (e, _, _)) = e
     | expJS (Ast.IntExp (e, _, _)) = (Int.toString e)
     | expJS (Ast.CallExp (a, b, _, _)) = (expJS_callExp a b)
@@ -99,8 +109,20 @@ struct
   fun boolJS (Ast.BoolExp2 (a, b, c, _, _)) = (expJS a) ^ (convertRelOp b) ^ (expJS c)
     | boolJS (Ast.BoolExp3 (a, b, c, _, _)) = "(" ^ (boolJS a) ^ ")" ^ (convertLoOp b) ^ "(" ^ (boolJS c) ^ ")"
 
-  fun stmtJS (Ast.AssStmt (a, b, _, _)) = "var " ^ a ^ "=" ^ (expJS b) ^ ";"
-    | stmtJS (Ast.MutateStmt (a, b, _, _)) = a ^ "=" ^ (expJS b) ^ ";"
+  fun stmtJS (Ast.AssStmt (a, b, _, _)) =
+        let 
+          val prefixed = (!prefix) ^ a
+          val _ = (defList := prefixed::(!defList))
+          val rtc = reduceType (expJS_check [] b) 0 1
+          val _ = if (rtc = ~1) then (typeErrors := (prefixed, ~1)::(!typeErrors)) else (typeErrors := (prefixed, rtc)::(!typeErrors))
+        in prefixed ^ "=" ^ (expJS b) ^ ";" end
+    | stmtJS (Ast.MutateStmt (a, b, _, _)) =
+        let 
+          val prefixed = (!prefix) ^ a
+          val _ = (defList := prefixed::(!defList))
+          val rtc = reduceType (expJS_check [] b) 0 1
+          val _ = if (rtc = ~1) then (typeErrors := (prefixed, ~1)::(!typeErrors)) else (typeErrors := (prefixed, rtc)::(!typeErrors))
+        in prefixed ^ "=" ^ (expJS b) ^ ";" end
     | stmtJS (Ast.PrintStmt (a, _, _)) = "console.log(" ^ (expJS a) ^ ");"
     | stmtJS (Ast.BREAK _) = "break;"
     | stmtJS (Ast.CONTINUE _) = "continue;"
