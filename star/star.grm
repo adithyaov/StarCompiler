@@ -11,11 +11,11 @@ structure Ast = StarAst
 
 %pos int
 
+%left AND OR
+%left GE GT LE LT NEQ EQ 
 %left SUB PLUS
 %left TIMES DIV
 %right CARAT
-%left AND
-%left OR
 
 %term ID of string | NUM of int | STRING of string
       | PLUS | TIMES | PRINT | COMMA
@@ -51,7 +51,10 @@ structure Ast = StarAst
 %keyword WHILE BREAK CONTINUE RETURN FUNCTION VAR IF ELSE PRINT SEMI END
 
 %noshift EOF
+%value NUM (1)
+%value STRING ("")
 %verbose
+
 %%
 
 (* the parser returns the value associated with the exp_ression *)

@@ -357,7 +357,9 @@ fn (T 0) => "ID"
   | _ => "bogus-term"
 local open Header in
 val errtermvalue=
-fn _ => MlyValue.VOID
+fn (T 1) => MlyValue.NUM(fn () => (1)) | 
+(T 2) => MlyValue.STRING(fn () => ("")) | 
+_ => MlyValue.VOID
 end
 val terms : term list = nil
  $$ (T 34) $$ (T 33) $$ (T 32) $$ (T 31) $$ (T 30) $$ (T 29) $$ (T 28)
