@@ -109,8 +109,10 @@ type svalue = Tokens.svalue
 type ('a,'b) token = ('a,'b) Tokens.token
 type lexresult= (svalue,pos) token
 
+val linepos = ref 0
+val linenum = ref 1
 val pos = ref 0
-fun eof () = Tokens.EOF(!pos,!pos)
+fun eof () = Tokens.EOF(!linenum,!linepos)
 fun error (e,lNum, lPos) = TextIO.output (TextIO.stdOut, String.concat["lex-error: lineNum: ", (Int.toString lNum), ",linePos: ", (Int.toString lPos), ",error: ", e, "\n"])
 
 
