@@ -34,7 +34,7 @@ ws = [\ \t];
 ">" => (Tokens.GT(!linenum, yypos - !linepos));
 "<=" => (Tokens.LE(!linenum, yypos - !linepos));
 "<" => (Tokens.LT(!linenum, yypos - !linepos));
-"<>" => (Tokens.NEQ(!linenum, yypos - !linepos));
+"!=" => (Tokens.NEQ(!linenum, yypos - !linepos));
 "{" => (Tokens.LBRACE(!linenum, yypos - !linepos));
 "}" => (Tokens.RBRACE(!linenum, yypos - !linepos));
 "(" => (Tokens.LPAREN(!linenum, yypos - !linepos));

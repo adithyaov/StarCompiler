@@ -1,7 +1,12 @@
-2 shift/reduce conflicts
+7 shift/reduce conflicts
 
-error:  state 53: shift/reduce conflict (shift OR, reduce by rule 36)
-error:  state 53: shift/reduce conflict (shift AND, reduce by rule 36)
+error:  state 39: shift/reduce conflict (shift SUB, reduce by rule 20)
+error:  state 39: shift/reduce conflict (shift DIV, reduce by rule 20)
+error:  state 39: shift/reduce conflict (shift CARAT, reduce by rule 20)
+error:  state 39: shift/reduce conflict (shift TIMES, reduce by rule 20)
+error:  state 39: shift/reduce conflict (shift PLUS, reduce by rule 20)
+error:  state 61: shift/reduce conflict (shift OR, reduce by rule 37)
+error:  state 61: shift/reduce conflict (shift AND, reduce by rule 37)
 
 state 0:
 
@@ -17,7 +22,7 @@ state 0:
 	RETURN	shift 5
 	END	shift 4
 
-	start	goto 84
+	start	goto 82
 	function_	goto 3
 	program_	goto 2
 	stm_	goto 1
@@ -87,11 +92,16 @@ state 4:
 
 state 5:
 
-	stm_ : RETURN .  (reduce by rule 11)
+	stm_ : RETURN . exp_ 
 
+	ID	shift 19
+	NUM	shift 18
+	STRING	shift 17
+	LPAREN	shift 16
 
+	exp_	goto 15
 
-	.	reduce by rule 11
+	.	error
 
 
 state 6:
@@ -99,7 +109,7 @@ state 6:
 	stm_ : IF . LPAREN bool_ RPAREN LBRACE body_ RBRACE 
 	stm_ : IF . LPAREN bool_ RPAREN LBRACE body_ RBRACE ELSE LBRACE body_ RBRACE 
 
-	LPAREN	shift 15
+	LPAREN	shift 20
 
 
 	.	error
@@ -109,7 +119,7 @@ state 7:
 
 	stm_ : WHILE . LPAREN bool_ RPAREN LBRACE body_ RBRACE 
 
-	LPAREN	shift 16
+	LPAREN	shift 21
 
 
 	.	error
@@ -137,7 +147,7 @@ state 10:
 
 	function_ : FUNCTION . ID LPAREN params_ RPAREN LBRACE body_ RBRACE 
 
-	ID	shift 17
+	ID	shift 22
 
 
 	.	error
@@ -147,7 +157,7 @@ state 11:
 
 	stm_ : VAR . ID ASSIGN exp_ 
 
-	ID	shift 18
+	ID	shift 23
 
 
 	.	error
@@ -157,7 +167,7 @@ state 12:
 
 	stm_ : PRINT . LPAREN exp_ RPAREN 
 
-	LPAREN	shift 19
+	LPAREN	shift 24
 
 
 	.	error
@@ -183,125 +193,35 @@ state 14:
 
 state 15:
 
-	stm_ : IF LPAREN . bool_ RPAREN LBRACE body_ RBRACE 
-	stm_ : IF LPAREN . bool_ RPAREN LBRACE body_ RBRACE ELSE LBRACE body_ RBRACE 
+	exp_ : exp_ . arOp_ exp_ 
+	stm_ : RETURN exp_ .  (reduce by rule 11)
 
-	ID	shift 25
-	NUM	shift 24
-	STRING	shift 23
-	LPAREN	shift 22
+	PLUS	shift 30
+	TIMES	shift 29
+	CARAT	shift 28
+	DIV	shift 27
+	SUB	shift 26
 
-	exp_	goto 21
-	bool_	goto 20
+	arOp_	goto 25
 
-	.	error
+	.	reduce by rule 11
 
 
 state 16:
 
-	stm_ : WHILE LPAREN . bool_ RPAREN LBRACE body_ RBRACE 
+	exp_ : LPAREN . exp_ RPAREN 
 
-	ID	shift 25
-	NUM	shift 24
-	STRING	shift 23
-	LPAREN	shift 22
+	ID	shift 19
+	NUM	shift 18
+	STRING	shift 17
+	LPAREN	shift 16
 
-	exp_	goto 21
-	bool_	goto 26
+	exp_	goto 31
 
 	.	error
 
 
 state 17:
-
-	function_ : FUNCTION ID . LPAREN params_ RPAREN LBRACE body_ RBRACE 
-
-	LPAREN	shift 27
-
-
-	.	error
-
-
-state 18:
-
-	stm_ : VAR ID . ASSIGN exp_ 
-
-	ASSIGN	shift 28
-
-
-	.	error
-
-
-state 19:
-
-	stm_ : PRINT LPAREN . exp_ RPAREN 
-
-	ID	shift 25
-	NUM	shift 24
-	STRING	shift 23
-	LPAREN	shift 22
-
-	exp_	goto 29
-
-	.	error
-
-
-state 20:
-
-	bool_ : bool_ . logic_ bool_ 
-	stm_ : IF LPAREN bool_ . RPAREN LBRACE body_ RBRACE 
-	stm_ : IF LPAREN bool_ . RPAREN LBRACE body_ RBRACE ELSE LBRACE body_ RBRACE 
-
-	AND	shift 33
-	OR	shift 32
-	RPAREN	shift 31
-
-	logic_	goto 30
-
-	.	error
-
-
-state 21:
-
-	exp_ : exp_ . PLUS exp_ 
-	exp_ : exp_ . TIMES exp_ 
-	exp_ : exp_ . DIV exp_ 
-	exp_ : exp_ . SUB exp_ 
-	exp_ : exp_ . CARAT exp_ 
-	bool_ : exp_ . comparison_ exp_ 
-
-	PLUS	shift 45
-	TIMES	shift 44
-	CARAT	shift 43
-	DIV	shift 42
-	SUB	shift 41
-	EQ	shift 40
-	GE	shift 39
-	GT	shift 38
-	LE	shift 37
-	LT	shift 36
-	NEQ	shift 35
-
-	comparison_	goto 34
-
-	.	error
-
-
-state 22:
-
-	exp_ : LPAREN . exp_ RPAREN 
-
-	ID	shift 25
-	NUM	shift 24
-	STRING	shift 23
-	LPAREN	shift 22
-
-	exp_	goto 46
-
-	.	error
-
-
-state 23:
 
 	exp_ : STRING .  (reduce by rule 16)
 
@@ -310,7 +230,7 @@ state 23:
 	.	reduce by rule 16
 
 
-state 24:
+state 18:
 
 	exp_ : NUM .  (reduce by rule 15)
 
@@ -319,294 +239,438 @@ state 24:
 	.	reduce by rule 15
 
 
-state 25:
+state 19:
 
 	exp_ : ID .  (reduce by rule 17)
 	exp_ : ID . LPAREN functionCallParams_ RPAREN 
 
-	LPAREN	shift 47
+	LPAREN	shift 32
 
 
 	.	reduce by rule 17
 
 
-state 26:
+state 20:
 
-	bool_ : bool_ . logic_ bool_ 
-	stm_ : WHILE LPAREN bool_ . RPAREN LBRACE body_ RBRACE 
+	stm_ : IF LPAREN . bool_ RPAREN LBRACE body_ RBRACE 
+	stm_ : IF LPAREN . bool_ RPAREN LBRACE body_ RBRACE ELSE LBRACE body_ RBRACE 
 
-	AND	shift 33
-	OR	shift 32
-	RPAREN	shift 48
+	ID	shift 19
+	NUM	shift 18
+	STRING	shift 17
+	LPAREN	shift 16
 
-	logic_	goto 30
+	exp_	goto 34
+	bool_	goto 33
 
 	.	error
+
+
+state 21:
+
+	stm_ : WHILE LPAREN . bool_ RPAREN LBRACE body_ RBRACE 
+
+	ID	shift 19
+	NUM	shift 18
+	STRING	shift 17
+	LPAREN	shift 16
+
+	exp_	goto 34
+	bool_	goto 35
+
+	.	error
+
+
+state 22:
+
+	function_ : FUNCTION ID . LPAREN params_ RPAREN LBRACE body_ RBRACE 
+
+	LPAREN	shift 36
+
+
+	.	error
+
+
+state 23:
+
+	stm_ : VAR ID . ASSIGN exp_ 
+
+	ASSIGN	shift 37
+
+
+	.	error
+
+
+state 24:
+
+	stm_ : PRINT LPAREN . exp_ RPAREN 
+
+	ID	shift 19
+	NUM	shift 18
+	STRING	shift 17
+	LPAREN	shift 16
+
+	exp_	goto 38
+
+	.	error
+
+
+state 25:
+
+	exp_ : exp_ arOp_ . exp_ 
+
+	ID	shift 19
+	NUM	shift 18
+	STRING	shift 17
+	LPAREN	shift 16
+
+	exp_	goto 39
+
+	.	error
+
+
+state 26:
+
+	arOp_ : SUB .  (reduce by rule 24)
+
+
+
+	.	reduce by rule 24
 
 
 state 27:
 
-	function_ : FUNCTION ID LPAREN . params_ RPAREN LBRACE body_ RBRACE 
+	arOp_ : DIV .  (reduce by rule 23)
 
-	ID	shift 50
 
-	params_	goto 49
 
-	.	reduce by rule 37
+	.	reduce by rule 23
 
 
 state 28:
 
-	stm_ : VAR ID ASSIGN . exp_ 
+	arOp_ : CARAT .  (reduce by rule 25)
 
-	ID	shift 25
-	NUM	shift 24
-	STRING	shift 23
-	LPAREN	shift 22
 
-	exp_	goto 51
 
-	.	error
+	.	reduce by rule 25
 
 
 state 29:
 
-	exp_ : exp_ . PLUS exp_ 
-	exp_ : exp_ . TIMES exp_ 
-	exp_ : exp_ . DIV exp_ 
-	exp_ : exp_ . SUB exp_ 
-	exp_ : exp_ . CARAT exp_ 
-	stm_ : PRINT LPAREN exp_ . RPAREN 
-
-	PLUS	shift 45
-	TIMES	shift 44
-	CARAT	shift 43
-	DIV	shift 42
-	SUB	shift 41
-	RPAREN	shift 52
+	arOp_ : TIMES .  (reduce by rule 22)
 
 
-	.	error
+
+	.	reduce by rule 22
 
 
 state 30:
 
-	bool_ : bool_ logic_ . bool_ 
+	arOp_ : PLUS .  (reduce by rule 21)
 
-	ID	shift 25
-	NUM	shift 24
-	STRING	shift 23
-	LPAREN	shift 22
 
-	exp_	goto 21
-	bool_	goto 53
 
-	.	error
+	.	reduce by rule 21
 
 
 state 31:
 
-	stm_ : IF LPAREN bool_ RPAREN . LBRACE body_ RBRACE 
-	stm_ : IF LPAREN bool_ RPAREN . LBRACE body_ RBRACE ELSE LBRACE body_ RBRACE 
+	exp_ : LPAREN exp_ . RPAREN 
+	exp_ : exp_ . arOp_ exp_ 
 
-	LBRACE	shift 54
+	PLUS	shift 30
+	TIMES	shift 29
+	CARAT	shift 28
+	DIV	shift 27
+	SUB	shift 26
+	RPAREN	shift 40
 
+	arOp_	goto 25
 
 	.	error
 
 
 state 32:
 
-	logic_ : OR .  (reduce by rule 34)
+	exp_ : ID LPAREN . functionCallParams_ RPAREN 
 
+	ID	shift 19
+	NUM	shift 18
+	STRING	shift 17
+	LPAREN	shift 16
 
+	exp_	goto 42
+	functionCallParams_	goto 41
 
-	.	reduce by rule 34
+	.	reduce by rule 12
 
 
 state 33:
 
-	logic_ : AND .  (reduce by rule 33)
+	bool_ : bool_ . logic_ bool_ 
+	stm_ : IF LPAREN bool_ . RPAREN LBRACE body_ RBRACE 
+	stm_ : IF LPAREN bool_ . RPAREN LBRACE body_ RBRACE ELSE LBRACE body_ RBRACE 
 
+	AND	shift 46
+	OR	shift 45
+	RPAREN	shift 44
 
+	logic_	goto 43
 
-	.	reduce by rule 33
+	.	error
 
 
 state 34:
 
-	bool_ : exp_ comparison_ . exp_ 
+	exp_ : exp_ . arOp_ exp_ 
+	bool_ : exp_ . comparison_ exp_ 
 
-	ID	shift 25
-	NUM	shift 24
-	STRING	shift 23
-	LPAREN	shift 22
+	PLUS	shift 30
+	TIMES	shift 29
+	CARAT	shift 28
+	DIV	shift 27
+	SUB	shift 26
+	EQ	shift 53
+	GE	shift 52
+	GT	shift 51
+	LE	shift 50
+	LT	shift 49
+	NEQ	shift 48
 
-	exp_	goto 55
+	comparison_	goto 47
+	arOp_	goto 25
 
 	.	error
 
 
 state 35:
 
-	comparison_ : NEQ .  (reduce by rule 31)
+	bool_ : bool_ . logic_ bool_ 
+	stm_ : WHILE LPAREN bool_ . RPAREN LBRACE body_ RBRACE 
 
+	AND	shift 46
+	OR	shift 45
+	RPAREN	shift 54
 
-
-	.	reduce by rule 31
-
-
-state 36:
-
-	comparison_ : LT .  (reduce by rule 30)
-
-
-
-	.	reduce by rule 30
-
-
-state 37:
-
-	comparison_ : LE .  (reduce by rule 29)
-
-
-
-	.	reduce by rule 29
-
-
-state 38:
-
-	comparison_ : GT .  (reduce by rule 28)
-
-
-
-	.	reduce by rule 28
-
-
-state 39:
-
-	comparison_ : GE .  (reduce by rule 27)
-
-
-
-	.	reduce by rule 27
-
-
-state 40:
-
-	comparison_ : EQ .  (reduce by rule 32)
-
-
-
-	.	reduce by rule 32
-
-
-state 41:
-
-	exp_ : exp_ SUB . exp_ 
-
-	ID	shift 25
-	NUM	shift 24
-	STRING	shift 23
-	LPAREN	shift 22
-
-	exp_	goto 56
+	logic_	goto 43
 
 	.	error
 
 
-state 42:
+state 36:
 
-	exp_ : exp_ DIV . exp_ 
+	function_ : FUNCTION ID LPAREN . params_ RPAREN LBRACE body_ RBRACE 
 
-	ID	shift 25
-	NUM	shift 24
-	STRING	shift 23
-	LPAREN	shift 22
+	ID	shift 56
+
+	params_	goto 55
+
+	.	reduce by rule 38
+
+
+state 37:
+
+	stm_ : VAR ID ASSIGN . exp_ 
+
+	ID	shift 19
+	NUM	shift 18
+	STRING	shift 17
+	LPAREN	shift 16
 
 	exp_	goto 57
 
 	.	error
 
 
+state 38:
+
+	exp_ : exp_ . arOp_ exp_ 
+	stm_ : PRINT LPAREN exp_ . RPAREN 
+
+	PLUS	shift 30
+	TIMES	shift 29
+	CARAT	shift 28
+	DIV	shift 27
+	SUB	shift 26
+	RPAREN	shift 58
+
+	arOp_	goto 25
+
+	.	error
+
+error:  state 39: shift/reduce conflict (shift SUB, reduce by rule 20)
+error:  state 39: shift/reduce conflict (shift DIV, reduce by rule 20)
+error:  state 39: shift/reduce conflict (shift CARAT, reduce by rule 20)
+error:  state 39: shift/reduce conflict (shift TIMES, reduce by rule 20)
+error:  state 39: shift/reduce conflict (shift PLUS, reduce by rule 20)
+
+state 39:
+
+	exp_ : exp_ . arOp_ exp_ 
+	exp_ : exp_ arOp_ exp_ .  (reduce by rule 20)
+
+	PLUS	shift 30
+	TIMES	shift 29
+	CARAT	shift 28
+	DIV	shift 27
+	SUB	shift 26
+
+	arOp_	goto 25
+
+	.	reduce by rule 20
+
+
+state 40:
+
+	exp_ : LPAREN exp_ RPAREN .  (reduce by rule 19)
+
+
+
+	.	reduce by rule 19
+
+
+state 41:
+
+	exp_ : ID LPAREN functionCallParams_ . RPAREN 
+
+	RPAREN	shift 59
+
+
+	.	error
+
+
+state 42:
+
+	exp_ : exp_ . arOp_ exp_ 
+	functionCallParams_ : exp_ .  (reduce by rule 13)
+	functionCallParams_ : exp_ . COMMA functionCallParams_ 
+
+	PLUS	shift 30
+	TIMES	shift 29
+	COMMA	shift 60
+	CARAT	shift 28
+	DIV	shift 27
+	SUB	shift 26
+
+	arOp_	goto 25
+
+	.	reduce by rule 13
+
+
 state 43:
 
-	exp_ : exp_ CARAT . exp_ 
+	bool_ : bool_ logic_ . bool_ 
 
-	ID	shift 25
-	NUM	shift 24
-	STRING	shift 23
-	LPAREN	shift 22
+	ID	shift 19
+	NUM	shift 18
+	STRING	shift 17
+	LPAREN	shift 16
 
-	exp_	goto 58
+	exp_	goto 34
+	bool_	goto 61
 
 	.	error
 
 
 state 44:
 
-	exp_ : exp_ TIMES . exp_ 
+	stm_ : IF LPAREN bool_ RPAREN . LBRACE body_ RBRACE 
+	stm_ : IF LPAREN bool_ RPAREN . LBRACE body_ RBRACE ELSE LBRACE body_ RBRACE 
 
-	ID	shift 25
-	NUM	shift 24
-	STRING	shift 23
-	LPAREN	shift 22
+	LBRACE	shift 62
 
-	exp_	goto 59
 
 	.	error
 
 
 state 45:
 
-	exp_ : exp_ PLUS . exp_ 
+	logic_ : OR .  (reduce by rule 35)
 
-	ID	shift 25
-	NUM	shift 24
-	STRING	shift 23
-	LPAREN	shift 22
 
-	exp_	goto 60
 
-	.	error
+	.	reduce by rule 35
 
 
 state 46:
 
-	exp_ : LPAREN exp_ . RPAREN 
-	exp_ : exp_ . PLUS exp_ 
-	exp_ : exp_ . TIMES exp_ 
-	exp_ : exp_ . DIV exp_ 
-	exp_ : exp_ . SUB exp_ 
-	exp_ : exp_ . CARAT exp_ 
-
-	PLUS	shift 45
-	TIMES	shift 44
-	CARAT	shift 43
-	DIV	shift 42
-	SUB	shift 41
-	RPAREN	shift 61
+	logic_ : AND .  (reduce by rule 34)
 
 
-	.	error
+
+	.	reduce by rule 34
 
 
 state 47:
 
-	exp_ : ID LPAREN . functionCallParams_ RPAREN 
+	bool_ : exp_ comparison_ . exp_ 
 
-	ID	shift 25
-	NUM	shift 24
-	STRING	shift 23
-	LPAREN	shift 22
+	ID	shift 19
+	NUM	shift 18
+	STRING	shift 17
+	LPAREN	shift 16
 
 	exp_	goto 63
-	functionCallParams_	goto 62
 
-	.	reduce by rule 12
+	.	error
 
 
 state 48:
+
+	comparison_ : NEQ .  (reduce by rule 32)
+
+
+
+	.	reduce by rule 32
+
+
+state 49:
+
+	comparison_ : LT .  (reduce by rule 31)
+
+
+
+	.	reduce by rule 31
+
+
+state 50:
+
+	comparison_ : LE .  (reduce by rule 30)
+
+
+
+	.	reduce by rule 30
+
+
+state 51:
+
+	comparison_ : GT .  (reduce by rule 29)
+
+
+
+	.	reduce by rule 29
+
+
+state 52:
+
+	comparison_ : GE .  (reduce by rule 28)
+
+
+
+	.	reduce by rule 28
+
+
+state 53:
+
+	comparison_ : EQ .  (reduce by rule 33)
+
+
+
+	.	reduce by rule 33
+
+
+state 54:
 
 	stm_ : WHILE LPAREN bool_ RPAREN . LBRACE body_ RBRACE 
 
@@ -616,7 +680,7 @@ state 48:
 	.	error
 
 
-state 49:
+state 55:
 
 	function_ : FUNCTION ID LPAREN params_ . RPAREN LBRACE body_ RBRACE 
 
@@ -626,37 +690,34 @@ state 49:
 	.	error
 
 
-state 50:
+state 56:
 
-	params_ : ID .  (reduce by rule 38)
+	params_ : ID .  (reduce by rule 39)
 	params_ : ID . COMMA params_ 
 
 	COMMA	shift 66
 
 
-	.	reduce by rule 38
+	.	reduce by rule 39
 
 
-state 51:
+state 57:
 
-	exp_ : exp_ . PLUS exp_ 
-	exp_ : exp_ . TIMES exp_ 
-	exp_ : exp_ . DIV exp_ 
-	exp_ : exp_ . SUB exp_ 
-	exp_ : exp_ . CARAT exp_ 
+	exp_ : exp_ . arOp_ exp_ 
 	stm_ : VAR ID ASSIGN exp_ .  (reduce by rule 4)
 
-	PLUS	shift 45
-	TIMES	shift 44
-	CARAT	shift 43
-	DIV	shift 42
-	SUB	shift 41
+	PLUS	shift 30
+	TIMES	shift 29
+	CARAT	shift 28
+	DIV	shift 27
+	SUB	shift 26
 
+	arOp_	goto 25
 
 	.	reduce by rule 4
 
 
-state 52:
+state 58:
 
 	stm_ : PRINT LPAREN exp_ RPAREN .  (reduce by rule 8)
 
@@ -664,23 +725,47 @@ state 52:
 
 	.	reduce by rule 8
 
-error:  state 53: shift/reduce conflict (shift OR, reduce by rule 36)
-error:  state 53: shift/reduce conflict (shift AND, reduce by rule 36)
 
-state 53:
+state 59:
+
+	exp_ : ID LPAREN functionCallParams_ RPAREN .  (reduce by rule 18)
+
+
+
+	.	reduce by rule 18
+
+
+state 60:
+
+	functionCallParams_ : exp_ COMMA . functionCallParams_ 
+
+	ID	shift 19
+	NUM	shift 18
+	STRING	shift 17
+	LPAREN	shift 16
+
+	exp_	goto 42
+	functionCallParams_	goto 67
+
+	.	reduce by rule 12
+
+error:  state 61: shift/reduce conflict (shift OR, reduce by rule 37)
+error:  state 61: shift/reduce conflict (shift AND, reduce by rule 37)
+
+state 61:
 
 	bool_ : bool_ . logic_ bool_ 
-	bool_ : bool_ logic_ bool_ .  (reduce by rule 36)
+	bool_ : bool_ logic_ bool_ .  (reduce by rule 37)
 
-	AND	shift 33
-	OR	shift 32
+	AND	shift 46
+	OR	shift 45
 
-	logic_	goto 30
+	logic_	goto 43
 
-	.	reduce by rule 36
+	.	reduce by rule 37
 
 
-state 54:
+state 62:
 
 	stm_ : IF LPAREN bool_ RPAREN LBRACE . body_ RBRACE 
 	stm_ : IF LPAREN bool_ RPAREN LBRACE . body_ RBRACE ELSE LBRACE body_ RBRACE 
@@ -693,148 +778,26 @@ state 54:
 	IF	shift 6
 	RETURN	shift 5
 
-	body_	goto 68
-	stm_	goto 67
-
-	.	error
-
-
-state 55:
-
-	exp_ : exp_ . PLUS exp_ 
-	exp_ : exp_ . TIMES exp_ 
-	exp_ : exp_ . DIV exp_ 
-	exp_ : exp_ . SUB exp_ 
-	exp_ : exp_ . CARAT exp_ 
-	bool_ : exp_ comparison_ exp_ .  (reduce by rule 35)
-
-	PLUS	shift 45
-	TIMES	shift 44
-	CARAT	shift 43
-	DIV	shift 42
-	SUB	shift 41
-
-
-	.	reduce by rule 35
-
-
-state 56:
-
-	exp_ : exp_ . PLUS exp_ 
-	exp_ : exp_ . TIMES exp_ 
-	exp_ : exp_ . DIV exp_ 
-	exp_ : exp_ . SUB exp_ 
-	exp_ : exp_ SUB exp_ .  (reduce by rule 23)
-	exp_ : exp_ . CARAT exp_ 
-
-	TIMES	shift 44
-	CARAT	shift 43
-	DIV	shift 42
-
-
-	.	reduce by rule 23
-
-
-state 57:
-
-	exp_ : exp_ . PLUS exp_ 
-	exp_ : exp_ . TIMES exp_ 
-	exp_ : exp_ . DIV exp_ 
-	exp_ : exp_ DIV exp_ .  (reduce by rule 22)
-	exp_ : exp_ . SUB exp_ 
-	exp_ : exp_ . CARAT exp_ 
-
-	CARAT	shift 43
-
-
-	.	reduce by rule 22
-
-
-state 58:
-
-	exp_ : exp_ . PLUS exp_ 
-	exp_ : exp_ . TIMES exp_ 
-	exp_ : exp_ . DIV exp_ 
-	exp_ : exp_ . SUB exp_ 
-	exp_ : exp_ . CARAT exp_ 
-	exp_ : exp_ CARAT exp_ .  (reduce by rule 24)
-
-	CARAT	shift 43
-
-
-	.	reduce by rule 24
-
-
-state 59:
-
-	exp_ : exp_ . PLUS exp_ 
-	exp_ : exp_ . TIMES exp_ 
-	exp_ : exp_ TIMES exp_ .  (reduce by rule 21)
-	exp_ : exp_ . DIV exp_ 
-	exp_ : exp_ . SUB exp_ 
-	exp_ : exp_ . CARAT exp_ 
-
-	CARAT	shift 43
-
-
-	.	reduce by rule 21
-
-
-state 60:
-
-	exp_ : exp_ . PLUS exp_ 
-	exp_ : exp_ PLUS exp_ .  (reduce by rule 20)
-	exp_ : exp_ . TIMES exp_ 
-	exp_ : exp_ . DIV exp_ 
-	exp_ : exp_ . SUB exp_ 
-	exp_ : exp_ . CARAT exp_ 
-
-	TIMES	shift 44
-	CARAT	shift 43
-	DIV	shift 42
-
-
-	.	reduce by rule 20
-
-
-state 61:
-
-	exp_ : LPAREN exp_ RPAREN .  (reduce by rule 19)
-
-
-
-	.	reduce by rule 19
-
-
-state 62:
-
-	exp_ : ID LPAREN functionCallParams_ . RPAREN 
-
-	RPAREN	shift 69
-
+	body_	goto 69
+	stm_	goto 68
 
 	.	error
 
 
 state 63:
 
-	exp_ : exp_ . PLUS exp_ 
-	exp_ : exp_ . TIMES exp_ 
-	exp_ : exp_ . DIV exp_ 
-	exp_ : exp_ . SUB exp_ 
-	exp_ : exp_ . CARAT exp_ 
-	functionCallParams_ : exp_ .  (reduce by rule 13)
-	functionCallParams_ : exp_ . COMMA functionCallParams_ 
+	exp_ : exp_ . arOp_ exp_ 
+	bool_ : exp_ comparison_ exp_ .  (reduce by rule 36)
 
-	PLUS	shift 45
-	TIMES	shift 44
-	COMMA	shift 70
-	CARAT	shift 43
-	DIV	shift 42
-	SUB	shift 41
+	PLUS	shift 30
+	TIMES	shift 29
+	CARAT	shift 28
+	DIV	shift 27
+	SUB	shift 26
 
+	arOp_	goto 25
 
-	.	reduce by rule 13
+	.	reduce by rule 36
 
 
 state 64:
@@ -849,8 +812,8 @@ state 64:
 	IF	shift 6
 	RETURN	shift 5
 
-	body_	goto 71
-	stm_	goto 67
+	body_	goto 70
+	stm_	goto 68
 
 	.	error
 
@@ -859,7 +822,7 @@ state 65:
 
 	function_ : FUNCTION ID LPAREN params_ RPAREN . LBRACE body_ RBRACE 
 
-	LBRACE	shift 72
+	LBRACE	shift 71
 
 
 	.	error
@@ -869,17 +832,26 @@ state 66:
 
 	params_ : ID COMMA . params_ 
 
-	ID	shift 50
+	ID	shift 56
 
-	params_	goto 73
+	params_	goto 72
 
-	.	reduce by rule 37
+	.	reduce by rule 38
 
 
 state 67:
 
+	functionCallParams_ : exp_ COMMA functionCallParams_ .  (reduce by rule 14)
+
+
+
+	.	reduce by rule 14
+
+
+state 68:
+
 	body_ : stm_ . body_ 
-	body_ : stm_ .  (reduce by rule 26)
+	body_ : stm_ .  (reduce by rule 27)
 
 	PRINT	shift 12
 	VAR	shift 11
@@ -889,16 +861,26 @@ state 67:
 	IF	shift 6
 	RETURN	shift 5
 
-	body_	goto 74
-	stm_	goto 67
+	body_	goto 73
+	stm_	goto 68
 
-	.	reduce by rule 26
+	.	reduce by rule 27
 
 
-state 68:
+state 69:
 
 	stm_ : IF LPAREN bool_ RPAREN LBRACE body_ . RBRACE 
 	stm_ : IF LPAREN bool_ RPAREN LBRACE body_ . RBRACE ELSE LBRACE body_ RBRACE 
+
+	RBRACE	shift 74
+
+
+	.	error
+
+
+state 70:
+
+	stm_ : WHILE LPAREN bool_ RPAREN LBRACE body_ . RBRACE 
 
 	RBRACE	shift 75
 
@@ -906,41 +888,7 @@ state 68:
 	.	error
 
 
-state 69:
-
-	exp_ : ID LPAREN functionCallParams_ RPAREN .  (reduce by rule 18)
-
-
-
-	.	reduce by rule 18
-
-
-state 70:
-
-	functionCallParams_ : exp_ COMMA . functionCallParams_ 
-
-	ID	shift 25
-	NUM	shift 24
-	STRING	shift 23
-	LPAREN	shift 22
-
-	exp_	goto 63
-	functionCallParams_	goto 76
-
-	.	reduce by rule 12
-
-
 state 71:
-
-	stm_ : WHILE LPAREN bool_ RPAREN LBRACE body_ . RBRACE 
-
-	RBRACE	shift 77
-
-
-	.	error
-
-
-state 72:
 
 	function_ : FUNCTION ID LPAREN params_ RPAREN LBRACE . body_ RBRACE 
 
@@ -952,51 +900,42 @@ state 72:
 	IF	shift 6
 	RETURN	shift 5
 
-	body_	goto 78
-	stm_	goto 67
+	body_	goto 76
+	stm_	goto 68
 
 	.	error
 
 
+state 72:
+
+	params_ : ID COMMA params_ .  (reduce by rule 40)
+
+
+
+	.	reduce by rule 40
+
+
 state 73:
 
-	params_ : ID COMMA params_ .  (reduce by rule 39)
+	body_ : stm_ body_ .  (reduce by rule 26)
 
 
 
-	.	reduce by rule 39
+	.	reduce by rule 26
 
 
 state 74:
 
-	body_ : stm_ body_ .  (reduce by rule 25)
-
-
-
-	.	reduce by rule 25
-
-
-state 75:
-
 	stm_ : IF LPAREN bool_ RPAREN LBRACE body_ RBRACE .  (reduce by rule 5)
 	stm_ : IF LPAREN bool_ RPAREN LBRACE body_ RBRACE . ELSE LBRACE body_ RBRACE 
 
-	ELSE	shift 79
+	ELSE	shift 77
 
 
 	.	reduce by rule 5
 
 
-state 76:
-
-	functionCallParams_ : exp_ COMMA functionCallParams_ .  (reduce by rule 14)
-
-
-
-	.	reduce by rule 14
-
-
-state 77:
+state 75:
 
 	stm_ : WHILE LPAREN bool_ RPAREN LBRACE body_ RBRACE .  (reduce by rule 7)
 
@@ -1005,36 +944,36 @@ state 77:
 	.	reduce by rule 7
 
 
-state 78:
+state 76:
 
 	function_ : FUNCTION ID LPAREN params_ RPAREN LBRACE body_ . RBRACE 
 
-	RBRACE	shift 80
+	RBRACE	shift 78
 
 
 	.	error
 
 
-state 79:
+state 77:
 
 	stm_ : IF LPAREN bool_ RPAREN LBRACE body_ RBRACE ELSE . LBRACE body_ RBRACE 
 
-	LBRACE	shift 81
+	LBRACE	shift 79
 
 
 	.	error
 
 
-state 80:
+state 78:
 
-	function_ : FUNCTION ID LPAREN params_ RPAREN LBRACE body_ RBRACE .  (reduce by rule 40)
-
-
-
-	.	reduce by rule 40
+	function_ : FUNCTION ID LPAREN params_ RPAREN LBRACE body_ RBRACE .  (reduce by rule 41)
 
 
-state 81:
+
+	.	reduce by rule 41
+
+
+state 79:
 
 	stm_ : IF LPAREN bool_ RPAREN LBRACE body_ RBRACE ELSE LBRACE . body_ RBRACE 
 
@@ -1046,23 +985,23 @@ state 81:
 	IF	shift 6
 	RETURN	shift 5
 
-	body_	goto 82
-	stm_	goto 67
+	body_	goto 80
+	stm_	goto 68
 
 	.	error
 
 
-state 82:
+state 80:
 
 	stm_ : IF LPAREN bool_ RPAREN LBRACE body_ RBRACE ELSE LBRACE body_ . RBRACE 
 
-	RBRACE	shift 83
+	RBRACE	shift 81
 
 
 	.	error
 
 
-state 83:
+state 81:
 
 	stm_ : IF LPAREN bool_ RPAREN LBRACE body_ RBRACE ELSE LBRACE body_ RBRACE .  (reduce by rule 6)
 
@@ -1071,7 +1010,7 @@ state 83:
 	.	reduce by rule 6
 
 
-state 84:
+state 82:
 
 
 	SEMI	accept
@@ -1080,5 +1019,5 @@ state 84:
 
 	.	error
 
-110 of 283 action table entries left after compaction
-45 goto table entries
+111 of 270 action table entries left after compaction
+50 goto table entries
