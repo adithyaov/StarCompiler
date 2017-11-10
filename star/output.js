@@ -1,0 +1,1 @@
+function side(_jude_a){_jude_j=main();_jude_k=window;_jude_a=5;_jude_b="22";_jude_c=(_jude_a)+(_jude_b);_jude_d=_jude_c;_jude_e=_jude_gsgs;return;}

@@ -120,6 +120,7 @@ struct
           val prefixed = (!prefix) ^ a
           val _ = (defList := prefixed::(!defList))
           val rtc = reduceType (expJS_check [] b) 0 1
+          val _ = if (rtc = 0) then (stringTypeList := prefixed::(!stringTypeList)) else if (rtc = 1) then (intTypeList := prefixed::(!intTypeList)) else (typeErrors := (!typeErrors))
           val _ = if (rtc = ~1) then (typeErrors := (prefixed, ~1)::(!typeErrors)) else (typeErrors := (prefixed, rtc)::(!typeErrors))
         in prefixed ^ "=" ^ (expJS b) ^ ";" end
     | stmtJS (Ast.MutateStmt (a, b, _, _)) =
