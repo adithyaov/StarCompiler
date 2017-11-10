@@ -25,7 +25,7 @@ structure Ast = StarAst
       | LBRACE | RBRACE | LPAREN | RPAREN
       | VAR | FUNCTION | BREAK | CONTINUE
       | WHILE | ELSE | IF | RETURN | BOGUS
-      | END
+      | END | JS
 
 %nonterm exp_                 of Ast.Exp_
         | start               of Ast.Start_ option
@@ -72,7 +72,7 @@ structure Ast = StarAst
        | PRINT LPAREN exp_ RPAREN                                               (Ast.PrintStmt(exp_, PRINTleft, PRINTright))
        | BREAK                                                                  (Ast.BREAK(BREAKleft, BREAKright)) 
        | CONTINUE                                                               (Ast.CONTINUE(CONTINUEleft, CONTINUEright)) 
-       | RETURN exp_                                                            (Ast.RETURN(exp_, RETURNleft, RETURNright)) 
+       | RETURN                                                                 (Ast.RETURN(RETURNleft, RETURNright)) 
 
   functionCallParams_ : ([]) | exp_ ([exp_]) | exp_ COMMA functionCallParams_ (exp_::functionCallParams_)
 
@@ -82,6 +82,7 @@ structure Ast = StarAst
         | ID LPAREN functionCallParams_ RPAREN                                  (Ast.CallExp(ID, functionCallParams_, IDleft, IDright))
         | LPAREN exp_ RPAREN                                                    (exp_)
         | exp_ arOp_ exp_                                                       (Ast.OpExp(exp_1, arOp_, exp_2, exp_1left, exp_2right))
+        | JS LPAREN exp_ RPAREN                                                 (Ast.JsExp(exp_, JSleft, JSright))
 
   arOp_ : PLUS                                                                  (Ast.Plus(PLUSleft, PLUSright)) 
         | TIMES                                                                 (Ast.Times(TIMESleft, TIMESright)) 

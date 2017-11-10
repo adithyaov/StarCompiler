@@ -2,6 +2,7 @@ signature Star_TOKENS =
 sig
 type ('a,'b) token
 type svalue
+val JS:  'a * 'a -> (svalue,'a) token
 val END:  'a * 'a -> (svalue,'a) token
 val BOGUS:  'a * 'a -> (svalue,'a) token
 val RETURN:  'a * 'a -> (svalue,'a) token

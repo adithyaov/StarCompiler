@@ -40,6 +40,7 @@ ws = [\ \t];
 "(" => (Tokens.LPAREN(!linenum, yypos - !linepos));
 ")" => (Tokens.RPAREN(!linenum, yypos - !linepos));
 
+"js" => (Tokens.JS(!linenum, yypos - !linepos));
 "print" => (Tokens.PRINT(!linenum, yypos - !linepos));
 "var" => (Tokens.VAR(!linenum, yypos - !linepos));
 "function" => (Tokens.FUNCTION(!linenum, yypos - !linepos));
