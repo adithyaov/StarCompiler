@@ -24,12 +24,12 @@ The repository as of now (Nov 10 2017) has two branches
 
 ### Example ###
 
-- val x = Star.parse("infile.star");
-- val y = valOf x;
-- val Star.startJS y; (\* Shows the result in the console \*)
-- val Star.makeJS ("out.js", y); (\* Outputs a js file \*)
-- Star.showLog(); (\* Shows the log, ie. Errors, Def, Types etc. \*)
-- Star.prefix := "the\_prefix\_"; (\* Changes the prefix. \*)
+\- val x = Star.parse("infile.star");  
+\- val y = valOf x;  
+\- val Star.startJS y; (\* Shows the result in the console \*)  
+\- val Star.makeJS ("out.js", y); (\* Outputs a js file \*)  
+\- Star.showLog(); (\* Shows the log, ie. Errors, Def, Types etc. \*)  
+\- Star.prefix := "the\_prefix\_"; (\* Changes the prefix. \*)  
 
 
 ### common files ###
