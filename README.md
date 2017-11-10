@@ -14,8 +14,7 @@ The repository as of now (Nov 10 2017) has two branches
 * Use the CM make file "sources.cm" found in the respective branchs.
 * All the branches are independent and can be used as is.
 * The following libraries are used in make file:
-  basis.cm
-  ml-yacc-lib.cm
+  basis.cm, ml-yacc-lib.cm
 * After running "sources.cm", type "Star.parse("filename");" to compile the file corresponding to the filename.
 
 ### common files ###
