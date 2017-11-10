@@ -5,11 +5,10 @@ type svalue = Tokens.svalue
 type ('a,'b) token = ('a,'b) Tokens.token
 type lexresult= (svalue,pos) token
 
-val pos = ref 0
-fun eof () = Tokens.EOF(!pos,!pos)
-fun error (e,l : int,_) = TextIO.output (TextIO.stdOut, String.concat[
-	"line ", (Int.toString l), ": ", e, "\n"
-      ])
+val linepos = ref 0
+val linenum = ref 1
+fun eof () = Tokens.EOF(!linenum,!linepos)
+fun error (e,lNum, lPos) = TextIO.output (TextIO.stdOut, String.concat["lex-error: lineNum: ", (Int.toString lNum), ",linePos: ", (Int.toString lPos), ",error: ", e, "\n"])
 
 %%
 %header (functor StarLexFun(structure Tokens: Star_TOKENS));
@@ -18,45 +17,44 @@ all=[A-Za-z0-9\ ];
 digit=[0-9];
 ws = [\ \t];
 %%
-\n       => (pos := (!pos) + 1; lex());
-"+"      => (Tokens.PLUS(!pos,!pos));
-"*"      => (Tokens.TIMES(!pos,!pos));
-";"      => (Tokens.SEMI(!pos,!pos));
-","      => (Tokens.COMMA(!pos,!pos));
-"-"      => (Tokens.SUB(!pos,!pos));
-"^"      => (Tokens.CARAT(!pos,!pos));
-"/"      => (Tokens.DIV(!pos,!pos));
+\n       => (linenum := (!linenum) + 1; linepos := yypos; lex());
+"+"      => (Tokens.PLUS(!linenum, yypos - !linepos));
+"*"      => (Tokens.TIMES(!linenum, yypos - !linepos));
+";"      => (Tokens.SEMI(!linenum, yypos - !linepos));
+","      => (Tokens.COMMA(!linenum, yypos - !linepos));
+"-"      => (Tokens.SUB(!linenum, yypos - !linepos));
+"^"      => (Tokens.CARAT(!linenum, yypos - !linepos));
+"/"      => (Tokens.DIV(!linenum, yypos - !linepos));
 
-"&&" => (Tokens.AND(!pos,!pos));
-"||" => (Tokens.OR(!pos,!pos));
-"==" => (Tokens.EQ(!pos,!pos));
-"=" => (Tokens.ASSIGN(!pos,!pos));
-">=" => (Tokens.GE(!pos,!pos));
-">" => (Tokens.GT(!pos,!pos));
-"<=" => (Tokens.LE(!pos,!pos));
-"<" => (Tokens.LT(!pos,!pos));
-"!=" => (Tokens.NEQ(!pos,!pos));
-"{" => (Tokens.LBRACE(!pos,!pos));
-"}" => (Tokens.RBRACE(!pos,!pos));
-"(" => (Tokens.LPAREN(!pos,!pos));
-")" => (Tokens.RPAREN(!pos,!pos));
-"print" => (Tokens.PRINT(!pos,!pos));
+"&" => (Tokens.AND(!linenum,yypos - !linepos));
+"|" => (Tokens.OR(!linenum, yypos - !linepos));
+"==" => (Tokens.EQ(!linenum, yypos - !linepos));
+"=" => (Tokens.ASSIGN(!linenum, yypos - !linepos));
+">=" => (Tokens.GE(!linenum, yypos - !linepos));
+">" => (Tokens.GT(!linenum, yypos - !linepos));
+"<=" => (Tokens.LE(!linenum, yypos - !linepos));
+"<" => (Tokens.LT(!linenum, yypos - !linepos));
+"!=" => (Tokens.NEQ(!linenum, yypos - !linepos));
+"{" => (Tokens.LBRACE(!linenum, yypos - !linepos));
+"}" => (Tokens.RBRACE(!linenum, yypos - !linepos));
+"(" => (Tokens.LPAREN(!linenum, yypos - !linepos));
+")" => (Tokens.RPAREN(!linenum, yypos - !linepos));
 
-"var" => (Tokens.VAR(!pos,!pos));
-"function" => (Tokens.FUNCTION(!pos,!pos));
-"break" => (Tokens.BREAK(!pos,!pos));
-"continue" => (Tokens.CONTINUE(!pos,!pos));
-"while" => (Tokens.WHILE(!pos,!pos));
-"else" => (Tokens.ELSE(!pos,!pos));
-"if" => (Tokens.IF(!pos,!pos));
-"return" => (Tokens.RETURN(!pos,!pos));
-"end" => (Tokens.END(!pos,!pos));
+"js" => (Tokens.JS(!linenum, yypos - !linepos));
+"print" => (Tokens.PRINT(!linenum, yypos - !linepos));
+"var" => (Tokens.VAR(!linenum, yypos - !linepos));
+"function" => (Tokens.FUNCTION(!linenum, yypos - !linepos));
+"break" => (Tokens.BREAK(!linenum, yypos - !linepos));
+"continue" => (Tokens.CONTINUE(!linenum, yypos - !linepos));
+"while" => (Tokens.WHILE(!linenum, yypos - !linepos));
+"else" => (Tokens.ELSE(!linenum, yypos - !linepos));
+"if" => (Tokens.IF(!linenum, yypos - !linepos));
+"return" => (Tokens.RETURN(!linenum, yypos - !linepos));
+"end" => (Tokens.END(!linenum, yypos - !linepos));
 
 {ws}+    => (lex());
-\"{all}+\" => (Tokens.STRING(yytext,!pos,!pos));
-{digit}+ => (Tokens.NUM (valOf (Int.fromString yytext), !pos, !pos));
-{alpha}+ => (Tokens.ID(yytext,!pos,!pos));
-
-
-"."      => (error ("ignoring bad character "^yytext,!pos,!pos);
-lex());
+\"{all}+\" => (Tokens.STRING(yytext,!linenum, yypos - !linepos));
+{digit}+ => (Tokens.NUM (valOf (Int.fromString yytext), !linenum, yypos - !linepos));
+{alpha}+ => (Tokens.ID(yytext,!linenum, yypos - !linepos));
+.      => (error ("ignoring bad character "^yytext, !linenum, yypos - !linepos); 
+           Tokens.BOGUS(!linenum, yypos - !linepos));
