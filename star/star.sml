@@ -30,10 +30,10 @@ struct
 
   fun invoke lexstream =
       let 
-      	  fun print_error (s, lNo, lPos) =
-	      TextIO.output(TextIO.stdOut, "syntax-error: lineNum: " ^ (Int.toString lNo) ^ ", linePos: "^ (Int.toString lPos) ^", error: "^ s ^ "\n")
+          fun print_error (s, lNo, lPos) =
+          TextIO.output(TextIO.stdOut, "syntax-error: lineNum: " ^ (Int.toString lNo) ^ ", linePos: "^ (Int.toString lPos) ^", error: "^ s ^ "\n")
        in 
-       	  StarParser.parse(0,lexstream,print_error,())
+          StarParser.parse(0,lexstream,print_error,())
       end
 
   fun getProper ifNone NONE = ifNone
